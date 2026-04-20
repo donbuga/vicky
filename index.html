@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Índice de archivos HTML</title>
+</head>
+<body>
+  <h1>Índice de archivos HTML</h1>
+  <p>Listado cargado desde <code>html/manifest.json</code>.</p>
+  <ul id="html-list"></ul>
+
+  <script>
+    async function cargarArchivosHtml() {
+      const lista = document.getElementById('html-list');
+
+      try {
+        const respuesta = await fetch('./html/manifest.json');
+
+        if (!respuesta.ok) {
+          throw new Error('No se pudo cargar el manifest.');
+        }
+
+        const data = await respuesta.json();
+        const archivos = (data.files || [])
+          .filter((nombre) => typeof nombre === 'string' && nombre.endsWith('.html'))
+          .sort((a, b) => a.localeCompare(b, 'es'));
+
+        if (archivos.length === 0) {
+          lista.innerHTML = '<li>No se encontraron archivos HTML.</li>';
+          return;
+        }
+
+        lista.innerHTML = archivos
+          .map((archivo) => `<li><a href="html/${archivo}">${archivo}</a></li>`)
+          .join('');
+      } catch {
+        lista.innerHTML = '<li>No fue posible cargar el listado de archivos.</li>';
+      }
+    }
+
+    cargarArchivosHtml();
+  </script>
+</body>
+</html>
