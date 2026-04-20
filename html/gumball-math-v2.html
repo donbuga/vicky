@@ -285,10 +285,33 @@ header h1 {
 }
 .tooltip-circles {
   display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
+  flex-direction: column;
+  gap: 8px;
   justify-content: center;
-  max-width: 180px;
+  align-items: center;
+  min-width: 78px;
+}
+.tooltip-domino-row {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+.tooltip-domino {
+  width: 72px;
+  height: 72px;
+  padding: 7px;
+  border-radius: 12px;
+  border: 2.5px solid var(--outline);
+  background: #F2F8FF;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  place-items: center;
+}
+.tooltip-domino .vcircle {
+  width: 16px;
+  height: 16px;
+  animation-duration: .24s;
 }
 
 .ex-label {
@@ -831,11 +854,8 @@ function showTooltip(btn, count, circType) {
   const label = document.getElementById('tooltip-label');
   const circles = document.getElementById('tooltip-circles');
 
-  // Build circles
-  circles.innerHTML = '';
-  for (let i = 0; i < count; i++) {
-    circles.appendChild(makeCircle(circType, i * 30));
-  }
+  // Build circles in domino-like groups
+  renderTooltipDomino(circles, count, circType);
   label.textContent = count === 1 ? '1 círculo' : `${count} círculos`;
 
   // Position: centered above the button
@@ -868,6 +888,53 @@ function showTooltip(btn, count, circType) {
 function hideTooltip() {
   document.getElementById('num-tooltip').classList.remove('visible');
 }
+
+function getDominoPattern(value) {
+  const patterns = {
+    1: [4],
+    2: [0, 8],
+    3: [0, 4, 8],
+    4: [0, 2, 6, 8],
+    5: [0, 2, 4, 6, 8],
+    6: [0, 2, 3, 5, 6, 8],
+    7: [0, 2, 3, 4, 5, 6, 8],
+  };
+  return patterns[value] || [];
+}
+
+function renderTooltipDomino(container, count, circType) {
+  container.innerHTML = '';
+
+  const row = document.createElement('div');
+  row.className = 'tooltip-domino-row';
+
+  const chunks = [];
+  let left = count;
+  while (left > 0) {
+    const part = Math.min(7, left);
+    chunks.push(part);
+    left -= part;
+  }
+
+  let delay = 0;
+  chunks.forEach(chunk => {
+    const tile = document.createElement('div');
+    tile.className = 'tooltip-domino';
+
+    getDominoPattern(chunk).forEach(slot => {
+      const pip = makeCircle(circType, delay);
+      pip.style.gridColumn = String((slot % 3) + 1);
+      pip.style.gridRow = String(Math.floor(slot / 3) + 1);
+      tile.appendChild(pip);
+      delay += 35;
+    });
+
+    row.appendChild(tile);
+  });
+
+  container.appendChild(row);
+}
+
 
 // Hide tooltip when clicking anywhere else
 document.addEventListener('click', (e) => {
