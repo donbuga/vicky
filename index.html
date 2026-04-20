@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Índice de archivos HTML</title>
+</head>
+<body>
+  <h1>Índice de archivos HTML</h1>
+  <ul id="html-list"></ul>
+
+  <script>
+    async function cargarArchivosHtml() {
+      const lista = document.getElementById('html-list');
+
+      try {
+        const respuesta = await fetch('./');
+        const html = await respuesta.text();
+
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+
+        const archivos = Array.from(doc.querySelectorAll('a'))
+          .map((a) => a.getAttribute('href') || '')
+          .filter((href) => href.endsWith('.html'))
+          .filter((href) => href !== 'index.html')
+          .sort((a, b) => a.localeCompare(b, 'es'));
+
+        if (archivos.length === 0) {
+          lista.innerHTML = '<li>No se encontraron archivos HTML.</li>';
+          return;
+        }
+
+        lista.innerHTML = archivos
+          .map((archivo) => `<li><a href="${archivo}">${archivo}</a></li>`)
+          .join('');
+      } catch {
+        lista.innerHTML = '<li>No fue posible leer el directorio automáticamente.</li>';
+      }
+    }
+
+    cargarArchivosHtml();
+  </script>
+</body>
+</html>
