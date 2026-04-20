@@ -465,6 +465,10 @@
   😤 No quiero leer
 </button>
 
+<button id="rescue-btn" class="no-read-btn" style="display:none;" onclick="openRescueModal()">
+  👑 Puedes rescatar a la princesa
+</button>
+
 <!-- GAME SCENE -->
 <div class="scene">
   <!-- Mario pixel art inline -->
@@ -685,6 +689,8 @@ function markDone() {
   if (coins >= 4) {
     setTimeout(() => {
       document.getElementById('win-msg').style.display = 'block';
+      document.querySelector('.no-read-btn').style.display = 'none';
+      document.getElementById('rescue-btn').style.display = 'block';
       playWinSound();
     }, 700);
   }
@@ -741,6 +747,14 @@ function openBowserModal() {
 }
 function closeBowserModal() {
   document.getElementById('bowser-overlay').classList.remove('active');
+}
+
+function openRescueModal() {
+  document.getElementById('rescue-overlay').classList.add('active');
+}
+
+function closeRescueModal() {
+  document.getElementById('rescue-overlay').classList.remove('active');
 }
 
 function playRoarSound() {
@@ -805,6 +819,21 @@ window.speechSynthesis.onvoiceschanged = () => { window.speechSynthesis.getVoice
     <button class="bowser-ok-btn" onclick="closeBowserModal()">
       😱 ¡Está bien, voy a leer!
     </button>
+  </div>
+</div>
+
+<!-- RESCUE PEACH MODAL -->
+<div id="rescue-overlay" class="overlay">
+  <div class="modal" style="text-align:center;">
+    <div class="modal-header" style="justify-content:center;">
+      <div class="modal-title">👑 ¡Puedes rescatar a la princesa!</div>
+    </div>
+    <img src="../princesaPeach.gif" alt="Princesa Peach" style="max-width:100%;width:min(90%,320px);image-rendering:pixelated;border-radius:10px;">
+    <div style="margin-top:14px;">
+      <button class="btn-yes" onclick="closeRescueModal()" style="max-width:260px;width:100%;">
+        ✅ ¡Vamos al castillo!
+      </button>
+    </div>
   </div>
 </div>
 
