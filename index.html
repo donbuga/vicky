@@ -14,16 +14,15 @@
       const lista = document.getElementById('html-list');
 
       try {
-        const respuesta = await fetch('./');
-        const html = await respuesta.text();
+        const respuesta = await fetch('./html/manifest.json');
 
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
+        if (!respuesta.ok) {
+          throw new Error('No se pudo cargar el manifest.');
+        }
 
-        const archivos = Array.from(doc.querySelectorAll('a'))
-          .map((a) => a.getAttribute('href') || '')
-          .filter((href) => href.endsWith('.html'))
-          .filter((href) => href !== 'index.html')
+        const data = await respuesta.json();
+        const archivos = (data.files || [])
+          .filter((nombre) => typeof nombre === 'string' && nombre.endsWith('.html'))
           .sort((a, b) => a.localeCompare(b, 'es'));
 
         if (archivos.length === 0) {
@@ -32,10 +31,10 @@
         }
 
         lista.innerHTML = archivos
-          .map((archivo) => `<li><a href="${archivo}">${archivo}</a></li>`)
+          .map((archivo) => `<li><a href="html/${archivo}">${archivo}</a></li>`)
           .join('');
       } catch {
-        lista.innerHTML = '<li>No fue posible leer el directorio automáticamente.</li>';
+        lista.innerHTML = '<li>No fue posible cargar el listado de archivos.</li>';
       }
     }
 
