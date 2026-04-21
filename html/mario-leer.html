@@ -380,6 +380,7 @@
 
   .bowser-angry-img {
     width: min(90%, 360px);
+    cursor: pointer;
     image-rendering: pixelated;
     filter: drop-shadow(0 0 18px #ff4400);
     animation: bowserPulse .5s ease-in-out infinite alternate;
@@ -813,7 +814,7 @@ window.speechSynthesis.onvoiceschanged = () => { window.speechSynthesis.getVoice
 <div id="bowser-overlay">
   <div id="bowser-modal">
     <div class="sparks"><div class="spark" style="left:0%;animation-duration:0.60s;animation-delay:0.00s;background:hsl(20,100%,50%)"></div><div class="spark" style="left:9%;animation-duration:0.67s;animation-delay:0.05s;background:hsl(25,100%,50%)"></div><div class="spark" style="left:18%;animation-duration:0.74s;animation-delay:0.10s;background:hsl(30,100%,50%)"></div><div class="spark" style="left:27%;animation-duration:0.81s;animation-delay:0.15s;background:hsl(35,100%,50%)"></div><div class="spark" style="left:36%;animation-duration:0.88s;animation-delay:0.20s;background:hsl(40,100%,50%)"></div><div class="spark" style="left:45%;animation-duration:0.95s;animation-delay:0.25s;background:hsl(45,100%,50%)"></div><div class="spark" style="left:54%;animation-duration:1.02s;animation-delay:0.30s;background:hsl(50,100%,50%)"></div><div class="spark" style="left:63%;animation-duration:1.09s;animation-delay:0.35s;background:hsl(55,100%,50%)"></div><div class="spark" style="left:72%;animation-duration:1.16s;animation-delay:0.40s;background:hsl(60,100%,50%)"></div><div class="spark" style="left:81%;animation-duration:1.23s;animation-delay:0.45s;background:hsl(65,100%,50%)"></div><div class="spark" style="left:90%;animation-duration:1.30s;animation-delay:0.50s;background:hsl(70,100%,50%)"></div><div class="spark" style="left:99%;animation-duration:1.37s;animation-delay:0.55s;background:hsl(75,100%,50%)"></div></div>
-    <img id="bowser-angry-modal-img" class="bowser-angry-img" src="" alt="Bowser enojado">
+    <img id="bowser-angry-modal-img" class="bowser-angry-img" src="" alt="Bowser enojado" onclick="closeBowserModal()" title="Toca a Bowser para cerrar">
     <div class="bowser-roar-text">¡¡¡GRRRAAAAAHHH!!!</div>
     <div class="bowser-sub-text">
       ¡¡Bowser está furioso!!<br>
