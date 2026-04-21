@@ -743,7 +743,7 @@ document.getElementById('overlay').addEventListener('click', function(e) {
 // ── BOWSER MODAL ─────────────────────────────────────────────────────────────
 function openBowserModal() {
   const bowserModalImg = document.getElementById('bowser-angry-modal-img');
-  const bowserSceneImg = document.querySelector('.mario-wrap img');
+  const bowserSceneImg = document.querySelector('.goomba-wrap img');
   if (bowserModalImg && bowserSceneImg) bowserModalImg.src = bowserSceneImg.src;
   document.getElementById('bowser-overlay').classList.add('active');
   playRoarSound();
