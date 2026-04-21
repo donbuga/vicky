@@ -231,11 +231,11 @@
       line-height: 2;
     }
 
-    /* ── Pixel Cat SVG canvas ── */
-    canvas#catCanvas {
-      display: block;
-      margin: 0 auto 20px;
-      image-rendering: pixelated;
+    .hero-cat {
+      width: 96px;
+      height: 96px;
+      margin-bottom: 20px;
+      cursor: pointer;
     }
 
     /* ── Bounce animation for emojis in card header ── */
@@ -257,8 +257,12 @@
 
 <div class="wrapper">
   <header>
-    <!-- Pixel art unicorn cat drawn on canvas -->
-    <canvas id="catCanvas" width="96" height="96"></canvas>
+    <img
+      id="catImage"
+      class="hero-cat"
+      src="./sleepCat.png"
+      alt="Gatita durmiendo"
+    />
 
     <h1 class="title">Juegos para aprender</h1>
     
@@ -350,84 +354,20 @@ for (let i = 0; i < 12; i++) {
 }
 
 /* ──────────────────────────────────────
-   PIXEL ART UNICORN CAT (canvas)
-   96×96 grid — each pixel = 6 canvas px
+   TOGGLE CAT IMAGE
 ─────────────────────────────────────── */
-(function drawCat() {
-  const canvas = document.getElementById('catCanvas');
-  const SIZE = 96;
-  canvas.width = SIZE; canvas.height = SIZE;
-  const ctx = canvas.getContext('2d');
-  ctx.imageSmoothingEnabled = false;
+const catImage = document.getElementById('catImage');
+const catStates = {
+  sleeping: './sleepCat.png',
+  awake: './upCat.png',
+};
 
-  // Palette
-  const _ = null;         // transparent
-  const W = '#fdf4ff';    // white body
-  const P = '#e879f9';    // magenta (inner ear, nose)
-  const L = '#f5d0fe';    // light pink fur
-  const G = '#a855f7';    // dark purple outline
-  const Y = '#fde047';    // yellow horn
-  const O = '#fb923c';    // horn stripe / orange
-  const R = '#f9a8d4';    // rainbow color 1
-  const B = '#93c5fd';    // rainbow color 2
-  const M = '#86efac';    // rainbow color 3
-  const E = '#1e1b4b';    // eyes (dark)
-  const S = '#f472b6';    // cheek blush
-
-  // 16×16 sprite (each cell = 6px)
-  const CELL = 6;
-  const sprite = [
-    // row 0-1: horn tip
-    [_,_,_,_,_,_,_,Y,_,_,_,_,_,_,_,_],
-    [_,_,_,_,_,_,Y,O,Y,_,_,_,_,_,_,_],
-    // row 2-3: horn base + rainbow mane top
-    [_,_,_,_,_,Y,O,Y,O,Y,_,_,_,_,_,_],
-    [_,_,R,B,M,Y,O,Y,O,Y,R,B,M,_,_,_],
-    // row 4: ears + head top
-    [_,G,L,G,_,G,G,G,G,G,_,G,L,G,_,_],
-    [G,L,P,L,G,G,W,W,W,G,G,L,P,L,G,_],
-    // row 5-9: head
-    [G,W,W,W,W,W,W,W,W,W,W,W,W,W,G,_],
-    [G,W,W,W,W,W,W,W,W,W,W,W,W,W,G,_],
-    [G,W,E,E,W,W,W,W,W,W,E,E,W,W,G,_],
-    [G,W,E,E,W,W,W,W,W,W,E,E,W,W,G,_],
-    [G,W,W,W,S,W,W,W,W,S,W,W,W,W,G,_],
-    // row 10: nose + mouth
-    [G,W,W,W,W,W,P,W,P,W,W,W,W,W,G,_],
-    [G,W,W,W,W,W,W,P,W,W,W,W,W,W,G,_],
-    // row 12: chin
-    [_,G,W,W,W,W,W,W,W,W,W,W,W,G,_,_],
-    // row 13: body top
-    [_,_,G,W,W,W,W,W,W,W,W,W,G,_,_,_],
-    [_,_,_,G,G,G,G,G,G,G,G,G,_,_,_,_],
-  ];
-
-  sprite.forEach((row, ry) => {
-    row.forEach((color, rx) => {
-      if (!color) return;
-      ctx.fillStyle = color;
-      ctx.fillRect(rx * CELL, ry * CELL, CELL, CELL);
-    });
-  });
-
-  /* sparkles around the cat */
-  const sparkles = [[2,2],[13,1],[1,9],[14,8],[7,15],[3,14]];
-  const sparkColors = [R, B, M, Y, P];
-  sparkles.forEach(([sx, sy], i) => {
-    ctx.fillStyle = sparkColors[i % sparkColors.length];
-    ctx.fillRect(sx*CELL, sy*CELL, CELL/2, CELL/2);
-    ctx.fillRect((sx+.5)*CELL, (sy+.5)*CELL, CELL/2, CELL/2);
-  });
-
-  /* animate: gentle float */
-  let t = 0;
-  function animateCat() {
-    canvas.style.transform = `translateY(${Math.sin(t) * 5}px)`;
-    t += 0.03;
-    requestAnimationFrame(animateCat);
-  }
-  animateCat();
-})();
+let isSleeping = true;
+catImage.addEventListener('click', () => {
+  isSleeping = !isSleeping;
+  catImage.src = isSleeping ? catStates.sleeping : catStates.awake;
+  catImage.alt = isSleeping ? 'Gatita durmiendo' : 'Gatita despierta';
+});
 </script>
 </body>
 </html>
