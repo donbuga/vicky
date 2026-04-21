@@ -3,42 +3,431 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Índice de archivos HTML</title>
-</head>
-<body>
-  <h1>Índice de archivos HTML</h1>
-  <ul id="html-list"></ul>
-
-  <script>
-    async function cargarArchivosHtml() {
-      const lista = document.getElementById('html-list');
-
-      try {
-        const respuesta = await fetch('./html/manifest.json');
-
-        if (!respuesta.ok) {
-          throw new Error('No se pudo cargar el manifest.');
-        }
-
-        const data = await respuesta.json();
-        const archivos = (data.files || [])
-          .filter((nombre) => typeof nombre === 'string' && nombre.endsWith('.html'))
-          .sort((a, b) => a.localeCompare(b, 'es'));
-
-        if (archivos.length === 0) {
-          lista.innerHTML = '<li>No se encontraron archivos HTML.</li>';
-          return;
-        }
-
-        lista.innerHTML = archivos
-          .map((archivo) => `<li><a href="html/${archivo}">${archivo}</a></li>`)
-          .join('');
-      } catch {
-        lista.innerHTML = '<li>No fue posible cargar el listado de archivos.</li>';
-      }
+  <title>El Mundo de Vicky ✨</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --pink:    #ff9ec4;
+      --purple:  #c084fc;
+      --lavender:#e9d5ff;
+      --mint:    #a7f3d0;
+      --yellow:  #fde68a;
+      --sky:     #bae6fd;
+      --bg:      #1a0533;
+      --card:    #2d0f52;
+      --border:  #7c3aed;
+      --text:    #fdf4ff;
+      --dim:     #c4b5fd;
     }
 
-    cargarArchivosHtml();
-  </script>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      font-family: 'Nunito', sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Starfield ── */
+    .stars {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    }
+    .star {
+      position: absolute;
+      width: 3px; height: 3px;
+      background: white;
+      image-rendering: pixelated;
+      animation: twinkle var(--d, 2s) var(--del, 0s) infinite alternate;
+    }
+    @keyframes twinkle { from { opacity: .2 } to { opacity: 1 } }
+
+    /* ── Floating pixels deco ── */
+    .pixel-deco {
+      position: fixed; pointer-events: none; z-index: 0;
+      width: 8px; height: 8px;
+      image-rendering: pixelated;
+      animation: floatUp var(--fd, 6s) var(--fdel, 0s) linear infinite;
+    }
+    @keyframes floatUp {
+      0%   { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 1; }
+      100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* ── Layout ── */
+    .wrapper {
+      position: relative; z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    /* ── Header ── */
+    header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    /* Big pixel cat */
+    .hero-cat {
+      display: block;
+      margin: 0 auto 20px;
+      image-rendering: pixelated;
+    }
+
+    .title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(14px, 4vw, 26px);
+      background: linear-gradient(90deg, var(--pink), var(--purple), var(--mint));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.6;
+      text-shadow: none;
+      margin-bottom: 12px;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      color: var(--dim);
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* rainbow underline */
+    .rainbow-line {
+      height: 4px;
+      width: 200px;
+      margin: 20px auto 0;
+      background: linear-gradient(90deg, #ff9ec4, #c084fc, #818cf8, #38bdf8, #a7f3d0, #fde68a);
+      border-radius: 2px;
+      image-rendering: pixelated;
+    }
+
+    /* ── Subjects grid ── */
+    .subjects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 28px;
+    }
+
+    /* ── Subject card ── */
+    .subject-card {
+      background: var(--card);
+      border: 3px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 24px;
+      position: relative;
+      overflow: hidden;
+      transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 0 0 transparent;
+    }
+    .subject-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, var(--glow-a, transparent), var(--glow-b, transparent));
+      opacity: .07;
+      pointer-events: none;
+    }
+    .subject-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(192,132,252,.25);
+    }
+
+    /* Lenguaje accent */
+    .card-lenguaje {
+      --glow-a: #ff9ec4;
+      --glow-b: #c084fc;
+      border-color: var(--pink);
+    }
+    .card-lenguaje .card-icon-bg { background: linear-gradient(135deg, #ff9ec4, #c084fc); }
+
+    /* Matemáticas accent */
+    .card-matematicas {
+      --glow-a: #38bdf8;
+      --glow-b: #a7f3d0;
+      border-color: #38bdf8;
+    }
+    .card-matematicas .card-icon-bg { background: linear-gradient(135deg, #38bdf8, #a7f3d0); }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .card-icon-bg {
+      width: 52px; height: 52px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px;
+      flex-shrink: 0;
+      image-rendering: pixelated;
+    }
+
+    .card-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 11px;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── Game list ── */
+    .game-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .game-item a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255,255,255,.04);
+      border: 2px solid rgba(255,255,255,.08);
+      border-radius: 10px;
+      padding: 12px 16px;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 700;
+      font-size: .95rem;
+      transition: background .2s, border-color .2s, transform .15s;
+    }
+    .game-item a:hover {
+      background: rgba(255,255,255,.09);
+      border-color: rgba(255,255,255,.2);
+      transform: translateX(4px);
+    }
+
+    .game-pill {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 8px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      background: rgba(255,255,255,.12);
+      color: var(--dim);
+      white-space: nowrap;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+
+    .game-emoji { font-size: 20px; flex-shrink: 0; }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      margin-top: 60px;
+      font-size: .8rem;
+      color: var(--dim);
+      opacity: .6;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px;
+      line-height: 2;
+    }
+
+    /* ── Pixel Cat SVG canvas ── */
+    canvas#catCanvas {
+      display: block;
+      margin: 0 auto 20px;
+      image-rendering: pixelated;
+    }
+
+    /* ── Bounce animation for emojis in card header ── */
+    @keyframes bounce {
+      0%,100% { transform: translateY(0) }
+      50%      { transform: translateY(-5px) }
+    }
+    .card-icon-bg { animation: bounce 2.5s ease-in-out infinite; }
+    .card-matematicas .card-icon-bg { animation-delay: .8s; }
+  </style>
+</head>
+<body>
+
+<!-- Stars -->
+<div class="stars" id="stars"></div>
+
+<!-- Floating pixel hearts / stars -->
+<div id="floaters"></div>
+
+<div class="wrapper">
+  <header>
+    <!-- Pixel art unicorn cat drawn on canvas -->
+    <canvas id="catCanvas" width="96" height="96"></canvas>
+
+    <h1 class="title">El Mundo de Vicky</h1>
+    <p class="subtitle">✨ Aprender es mágico ✨</p>
+    <div class="rainbow-line"></div>
+  </header>
+
+  <main class="subjects">
+
+    <!-- LENGUAJE -->
+    <section class="subject-card card-lenguaje">
+      <div class="card-header">
+        <div class="card-icon-bg">📖</div>
+        <h2 class="card-title">Lenguaje</h2>
+      </div>
+      <ul class="game-list">
+        <li class="game-item">
+          <a href="./silabas/index.html">
+            <span class="game-emoji">🐱</span>
+            <span>Juego de Sílabas</span>
+            <span class="game-pill">Jugar</span>
+          </a>
+        </li>
+        <!-- Agregar más juegos aquí -->
+      </ul>
+    </section>
+
+    <!-- MATEMÁTICAS -->
+    <section class="subject-card card-matematicas">
+      <div class="card-header">
+        <div class="card-icon-bg">🔢</div>
+        <h2 class="card-title">Matemáticas</h2>
+      </div>
+      <ul class="game-list">
+        <li class="game-item">
+          <a href="./sumas/index.html">
+            <span class="game-emoji">🌟</span>
+            <span>Juego de Sumas</span>
+            <span class="game-pill">Jugar</span>
+          </a>
+        </li>
+        <!-- Agregar más juegos aquí -->
+      </ul>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Hecho con 💜 para Vicky</p>
+  </footer>
+</div>
+
+<script>
+/* ──────────────────────────────────────
+   STARFIELD
+─────────────────────────────────────── */
+const starsEl = document.getElementById('stars');
+for (let i = 0; i < 80; i++) {
+  const s = document.createElement('div');
+  s.className = 'star';
+  s.style.cssText = `
+    left:${Math.random()*100}%;
+    top:${Math.random()*100}%;
+    --d:${1.5+Math.random()*3}s;
+    --del:${Math.random()*3}s;
+    width:${Math.random()<.3?4:2}px;
+    height:${Math.random()<.3?4:2}px;
+    opacity:${.2+Math.random()*.8};
+  `;
+  starsEl.appendChild(s);
+}
+
+/* ──────────────────────────────────────
+   FLOATING PIXEL PARTICLES
+─────────────────────────────────────── */
+const floatersEl = document.getElementById('floaters');
+const floaterSymbols = ['💜','✨','⭐','🌸','💫','🌈'];
+for (let i = 0; i < 12; i++) {
+  const f = document.createElement('div');
+  f.className = 'pixel-deco';
+  f.textContent = floaterSymbols[Math.floor(Math.random()*floaterSymbols.length)];
+  f.style.cssText = `
+    left:${Math.random()*100}%;
+    font-size:${12+Math.random()*14}px;
+    width:auto; height:auto;
+    --fd:${6+Math.random()*10}s;
+    --fdel:${Math.random()*8}s;
+  `;
+  floatersEl.appendChild(f);
+}
+
+/* ──────────────────────────────────────
+   PIXEL ART UNICORN CAT (canvas)
+   96×96 grid — each pixel = 6 canvas px
+─────────────────────────────────────── */
+(function drawCat() {
+  const canvas = document.getElementById('catCanvas');
+  const SIZE = 96;
+  canvas.width = SIZE; canvas.height = SIZE;
+  const ctx = canvas.getContext('2d');
+  ctx.imageSmoothingEnabled = false;
+
+  // Palette
+  const _ = null;         // transparent
+  const W = '#fdf4ff';    // white body
+  const P = '#e879f9';    // magenta (inner ear, nose)
+  const L = '#f5d0fe';    // light pink fur
+  const G = '#a855f7';    // dark purple outline
+  const Y = '#fde047';    // yellow horn
+  const O = '#fb923c';    // horn stripe / orange
+  const R = '#f9a8d4';    // rainbow color 1
+  const B = '#93c5fd';    // rainbow color 2
+  const M = '#86efac';    // rainbow color 3
+  const E = '#1e1b4b';    // eyes (dark)
+  const S = '#f472b6';    // cheek blush
+
+  // 16×16 sprite (each cell = 6px)
+  const CELL = 6;
+  const sprite = [
+    // row 0-1: horn tip
+    [_,_,_,_,_,_,_,Y,_,_,_,_,_,_,_,_],
+    [_,_,_,_,_,_,Y,O,Y,_,_,_,_,_,_,_],
+    // row 2-3: horn base + rainbow mane top
+    [_,_,_,_,_,Y,O,Y,O,Y,_,_,_,_,_,_],
+    [_,_,R,B,M,Y,O,Y,O,Y,R,B,M,_,_,_],
+    // row 4: ears + head top
+    [_,G,L,G,_,G,G,G,G,G,_,G,L,G,_,_],
+    [G,L,P,L,G,G,W,W,W,G,G,L,P,L,G,_],
+    // row 5-9: head
+    [G,W,W,W,W,W,W,W,W,W,W,W,W,W,G,_],
+    [G,W,W,W,W,W,W,W,W,W,W,W,W,W,G,_],
+    [G,W,E,E,W,W,W,W,W,W,E,E,W,W,G,_],
+    [G,W,E,E,W,W,W,W,W,W,E,E,W,W,G,_],
+    [G,W,W,W,S,W,W,W,W,S,W,W,W,W,G,_],
+    // row 10: nose + mouth
+    [G,W,W,W,W,W,P,W,P,W,W,W,W,W,G,_],
+    [G,W,W,W,W,W,W,P,W,W,W,W,W,W,G,_],
+    // row 12: chin
+    [_,G,W,W,W,W,W,W,W,W,W,W,W,G,_,_],
+    // row 13: body top
+    [_,_,G,W,W,W,W,W,W,W,W,W,G,_,_,_],
+    [_,_,_,G,G,G,G,G,G,G,G,G,_,_,_,_],
+  ];
+
+  sprite.forEach((row, ry) => {
+    row.forEach((color, rx) => {
+      if (!color) return;
+      ctx.fillStyle = color;
+      ctx.fillRect(rx * CELL, ry * CELL, CELL, CELL);
+    });
+  });
+
+  /* sparkles around the cat */
+  const sparkles = [[2,2],[13,1],[1,9],[14,8],[7,15],[3,14]];
+  const sparkColors = [R, B, M, Y, P];
+  sparkles.forEach(([sx, sy], i) => {
+    ctx.fillStyle = sparkColors[i % sparkColors.length];
+    ctx.fillRect(sx*CELL, sy*CELL, CELL/2, CELL/2);
+    ctx.fillRect((sx+.5)*CELL, (sy+.5)*CELL, CELL/2, CELL/2);
+  });
+
+  /* animate: gentle float */
+  let t = 0;
+  function animateCat() {
+    canvas.style.transform = `translateY(${Math.sin(t) * 5}px)`;
+    t += 0.03;
+    requestAnimationFrame(animateCat);
+  }
+  animateCat();
+})();
+</script>
 </body>
 </html>
