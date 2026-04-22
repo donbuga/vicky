@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Practice 2 🌟</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fdf6ec;
+    --animals-a: #ff9a3c;
+    --animals-b: #ff6b35;
+    --family-a: #f857a6;
+    --family-b: #ff5858;
+    --house-a: #4776e6;
+    --house-b: #8e54e9;
+    --card-bg: #ffffff;
+    --text: #2c2c2c;
+    --muted: #aaa;
+    --radius: 22px;
+    --shadow: 0 6px 20px rgba(0,0,0,0.10);
+    --shadow-hover: 0 14px 36px rgba(0,0,0,0.16);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Quicksand', sans-serif;
+    background-color: var(--bg);
+    background-image:
+      radial-gradient(ellipse at 15% 0%, #ffe0b0 0%, transparent 45%),
+      radial-gradient(ellipse at 85% 5%, #ffd6ee 0%, transparent 40%),
+      radial-gradient(ellipse at 50% 100%, #dce8ff 0%, transparent 50%);
+    min-height: 100vh;
+    padding: 24px 16px 48px;
+  }
+
+  /* ── HEADER ── */
+  header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .header-stars {
+    font-size: 1.5rem;
+    letter-spacing: 6px;
+    margin-bottom: 6px;
+    animation: twinkle 2s infinite alternate;
+  }
+
+  @keyframes twinkle {
+    from { opacity: 0.7; } to { opacity: 1; }
+  }
+
+  header h1 {
+    font-family: 'Baloo 2', cursive;
+    font-size: clamp(2.2rem, 7vw, 3.8rem);
+    background: linear-gradient(135deg, #ff6b35, #f857a6, #4776e6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+
+  header p {
+    font-size: 1rem;
+    color: #888;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+  }
+
+  /* ── SECTION ── */
+  .section {
+    max-width: 980px;
+    margin: 0 auto 52px;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .section:nth-child(2) { animation-delay: 0.05s; }
+  .section:nth-child(3) { animation-delay: 0.15s; }
+  .section:nth-child(4) { animation-delay: 0.25s; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+
+  .section-badge {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.3rem;
+    color: white;
+    padding: 8px 26px;
+    border-radius: 60px;
+    box-shadow: var(--shadow);
+    white-space: nowrap;
+  }
+
+  .animals .section-badge  { background: linear-gradient(135deg, var(--animals-a), var(--animals-b)); }
+  .family  .section-badge  { background: linear-gradient(135deg, var(--family-a),  var(--family-b));  }
+  .house   .section-badge  { background: linear-gradient(135deg, var(--house-a),   var(--house-b));   }
+
+  .section-line {
+    flex: 1;
+    height: 3px;
+    border-radius: 10px;
+    opacity: 0.25;
+  }
+
+  .animals .section-line { background: var(--animals-b); }
+  .family  .section-line { background: var(--family-b);  }
+  .house   .section-line { background: var(--house-b);   }
+
+  /* ── GRID ── */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 18px;
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 22px 12px 16px;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: transform 0.18s cubic-bezier(.34,1.56,.64,1), box-shadow 0.18s ease, border-color 0.15s;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+    border: 3px solid transparent;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .animals .card::before { background: linear-gradient(135deg, #fff5ee, #ffe8d6); }
+  .family  .card::before { background: linear-gradient(135deg, #fff0f6, #ffe0ee); }
+  .house   .card::before { background: linear-gradient(135deg, #f0f4ff, #e4e8ff); }
+
+  .card:hover {
+    transform: translateY(-6px) scale(1.04);
+    box-shadow: var(--shadow-hover);
+  }
+
+  .card:hover::before { opacity: 1; }
+
+  .card.playing {
+    transform: scale(0.94);
+    border-color: #ffc93c;
+  }
+
+  .card.playing::after {
+    content: '🔊';
+    position: absolute;
+    top: 7px; right: 9px;
+    font-size: 0.8rem;
+    animation: soundPulse 0.5s infinite alternate;
+    z-index: 2;
+  }
+
+  @keyframes soundPulse {
+    from { opacity: 0.5; transform: scale(0.85); }
+    to   { opacity: 1;   transform: scale(1.15); }
+  }
+
+  .card-visual {
+    font-size: 3.2rem;
+    line-height: 1;
+    display: block;
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.2s;
+  }
+
+  .card:hover .card-visual { transform: scale(1.1) rotate(-3deg); }
+
+  .card-word {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1rem;
+    color: var(--text);
+    display: block;
+    margin-bottom: 3px;
+    position: relative;
+    z-index: 1;
+    line-height: 1.2;
+  }
+
+  .card-translation {
+    font-size: 0.68rem;
+    color: var(--muted);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── RIPPLE ── */
+  .ripple {
+    position: absolute;
+    border-radius: 50%;
+    width: 70px; height: 70px;
+    background: rgba(255, 195, 60, 0.3);
+    transform: scale(0);
+    animation: rippleOut 0.65s linear;
+    pointer-events: none;
+    top: 50%; left: 50%;
+    margin: -35px 0 0 -35px;
+    z-index: 0;
+  }
+
+  @keyframes rippleOut {
+    to { transform: scale(4.5); opacity: 0; }
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 10px;
+    color: #ccc;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 500px) {
+    .cards-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .card { padding: 14px 6px 12px; }
+    .card-visual { font-size: 2.4rem; }
+    .card-word { font-size: 0.85rem; }
+    .section-badge { font-size: 1.1rem; padding: 7px 18px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-stars">⭐ ⭐ ⭐</div>
+  <h1>English Practice</h1>
+  <p>¡Toca cada tarjeta para escuchar la pronunciación! 🎧</p>
+</header>
+
+<!-- ANIMALES -->
+<section class="section animals">
+  <div class="section-header">
+    <div class="section-badge">🐾 Animals — Animales</div>
+    <div class="section-line"></div>
+  </div>
+  <div class="cards-grid" id="animals"></div>
+</section>
+
+<!-- FAMILIA -->
+<section class="section family">
+  <div class="section-header">
+    <div class="section-badge">👨‍👩‍👧 Family — Familia</div>
+    <div class="section-line"></div>
+  </div>
+  <div class="cards-grid" id="family"></div>
+</section>
+
+<!-- CASA -->
+<section class="section house">
+  <div class="section-header">
+    <div class="section-badge">🏠 House — La casa</div>
+    <div class="section-line"></div>
+  </div>
+  <div class="cards-grid" id="house"></div>
+</section>
+
+<footer>Hecho con ❤️ para aprender inglés 🌟</footer>
+
+<script>
+const vocab = {
+  animals: [
+    { word: 'dog',      emoji: '🐶', translation: 'perro'     },
+    { word: 'cat',      emoji: '🐱', translation: 'gato'      },
+    { word: 'bird',     emoji: '🐦', translation: 'pájaro'    },
+    { word: 'fish',     emoji: '🐟', translation: 'pez'       },
+    { word: 'rabbit',   emoji: '🐰', translation: 'conejo'    },
+    { word: 'cow',      emoji: '🐮', translation: 'vaca'      },
+    { word: 'horse',    emoji: '🐴', translation: 'caballo'   },
+    { word: 'lion',     emoji: '🦁', translation: 'león'      },
+    { word: 'elephant', emoji: '🐘', translation: 'elefante'  },
+    { word: 'duck',     emoji: '🦆', translation: 'pato'      },
+  ],
+  family: [
+    { word: 'dad',       emoji: '👨', translation: 'papá'     },
+    { word: 'mom',       emoji: '👩', translation: 'mamá'     },
+    { word: 'brother',   emoji: '👦', translation: 'hermano'  },
+    { word: 'sister',    emoji: '👧', translation: 'hermana'  },
+    { word: 'grandpa',   emoji: '👴', translation: 'abuelo'   },
+    { word: 'grandma',   emoji: '👵', translation: 'abuela'   },
+  ],
+  house: [
+    { word: 'kitchen',      emoji: '🍳', translation: 'cocina'    },
+    { word: 'bathroom',     emoji: '🛁', translation: 'baño'      },
+    { word: 'bedroom',      emoji: '🛏️', translation: 'dormitorio'},
+    { word: 'living room',  emoji: '🛋️', translation: 'sala'      },
+    { word: 'dining room',  emoji: '🍽️', translation: 'comedor'   },
+    { word: 'garden',       emoji: '🌳', translation: 'jardín'    },
+    { word: 'garage',       emoji: '🚗', translation: 'garaje'    },
+    { word: 'stairs',       emoji: '🪜', translation: 'escalera'  },
+  ],
+};
+
+// ── Speech ──
+function speak(word, card) {
+  if (!('speechSynthesis' in window)) {
+    alert('Prueba con Chrome o Edge para escuchar la pronunciación.');
+    return;
+  }
+  window.speechSynthesis.cancel();
+
+  const utter = new SpeechSynthesisUtterance(word);
+  utter.lang  = 'en-US';
+  utter.rate  = 0.82;
+  utter.pitch = 1.1;
+
+  const voices = window.speechSynthesis.getVoices();
+  const pick   = voices.find(v => v.lang.startsWith('en') && v.name.includes('Google'))
+               || voices.find(v => v.lang.startsWith('en'));
+  if (pick) utter.voice = pick;
+
+  card.classList.add('playing');
+  utter.onend  = () => card.classList.remove('playing');
+  utter.onerror = () => card.classList.remove('playing');
+
+  // Ripple
+  const r = document.createElement('div');
+  r.className = 'ripple';
+  card.appendChild(r);
+  setTimeout(() => r.remove(), 700);
+
+  window.speechSynthesis.speak(utter);
+}
+
+// ── Build cards ──
+function buildCards(containerId, items) {
+  const container = document.getElementById(containerId);
+  items.forEach((item, i) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.style.animationDelay = `${i * 0.05}s`;
+    card.innerHTML = `
+      <span class="card-visual">${item.emoji}</span>
+      <span class="card-word">${item.word}</span>
+      <span class="card-translation">${item.translation}</span>
+    `;
+    card.addEventListener('click', () => speak(item.word, card));
+    container.appendChild(card);
+  });
+}
+
+// Preload voices
+window.speechSynthesis.onvoiceschanged = () => {};
+window.speechSynthesis.getVoices();
+
+buildCards('animals', vocab.animals);
+buildCards('family',  vocab.family);
+buildCards('house',   vocab.house);
+</script>
+</body>
+</html>
