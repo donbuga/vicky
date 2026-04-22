@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lectura Divertida 🎉</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FFFBEA;
+    --text: #2D2D2D;
+    --shadow: rgba(0,0,0,0.10);
+
+    --c1:  #FFD93D; --c1t: #7a5c00; --c1h: #FFF3CC; --c1b: #ffe066; --c1d: #F4B400;
+    --c2:  #4ECDC4; --c2t: #fff;    --c2h: #E0FAF8; --c2b: #9EF5EE; --c2d: #4ECDC4;
+    --c3:  #FF6B6B; --c3t: #fff;    --c3h: #FFE9E9; --c3b: #FFACAC; --c3d: #FF6B6B;
+    --c4:  #A78BFA; --c4t: #fff;    --c4h: #EDE9FE; --c4b: #C4B5FD; --c4d: #A78BFA;
+    --c5:  #6BCB77; --c5t: #fff;    --c5h: #E8FAE9; --c5b: #A8E6AD; --c5d: #6BCB77;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: var(--cream);
+    background-image:
+      radial-gradient(circle at 10% 20%, rgba(255,217,61,0.15) 0%, transparent 40%),
+      radial-gradient(circle at 90% 80%, rgba(78,205,196,0.13) 0%, transparent 40%);
+    font-family: 'Nunito', sans-serif;
+    min-height: 100vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .zigzag-border {
+    width: 100%; max-width: 860px; height: 28px; overflow: hidden;
+  }
+  .zigzag-border svg { display: block; width: 100%; height: 100%; }
+
+  .card {
+    background: white;
+    width: 100%; max-width: 860px;
+    padding: 36px 48px;
+    box-shadow: 0 8px 32px var(--shadow);
+  }
+
+  header { text-align: center; margin-bottom: 28px; }
+  header h1 {
+    font-family: 'Baloo 2', cursive;
+    font-size: 2rem; font-weight: 800;
+    color: var(--text); letter-spacing: -0.5px;
+  }
+  header p { font-size: 0.92rem; color: #999; margin-top: 4px; }
+
+  .ilustracion { text-align: center; margin-bottom: 28px; }
+  .ilustracion .kids {
+    font-size: 4rem;
+    display: inline-flex; gap: 10px;
+    animation: float 3s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%,100% { transform: translateY(0); }
+    50%      { transform: translateY(-7px); }
+  }
+
+  /* ── Frases ── */
+  .frases { display: flex; flex-direction: column; gap: 16px; }
+
+  .frase-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 16px 20px; border-radius: 20px;
+    background: var(--cream); border: 2.5px solid transparent;
+    flex-wrap: wrap;
+    transition: box-shadow 0.2s;
+  }
+  .frase-row:hover { box-shadow: 0 4px 16px var(--shadow); }
+
+  /* Colores cíclicos 1-5 */
+  .frase-row:nth-child(5n+1) { border-color: var(--c1); }
+  .frase-row:nth-child(5n+2) { border-color: var(--c2); }
+  .frase-row:nth-child(5n+3) { border-color: var(--c3); }
+  .frase-row:nth-child(5n+4) { border-color: var(--c4); }
+  .frase-row:nth-child(5n+5) { border-color: var(--c5); }
+
+  .numero {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.35rem; font-weight: 800;
+    min-width: 36px; color: #bbb; flex-shrink: 0;
+  }
+
+  .palabras {
+    display: flex; align-items: center;
+    flex-wrap: wrap; gap: 5px; flex: 1;
+  }
+
+  .palabra {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.55rem; font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+    padding: 3px 11px;
+    border-radius: 12px;
+    border: 2.5px solid transparent;
+    background: white;
+    transition: all 0.15s ease;
+    user-select: none;
+  }
+  .palabra:hover {
+    transform: translateY(-3px) scale(1.06);
+    box-shadow: 0 5px 14px rgba(0,0,0,0.11);
+  }
+
+  /* hover por color de fila */
+  .frase-row:nth-child(5n+1) .palabra:hover { background: var(--c1h); border-color: var(--c1); color: var(--c1t); }
+  .frase-row:nth-child(5n+2) .palabra:hover { background: var(--c2h); border-color: var(--c2); color: #1a7a74; }
+  .frase-row:nth-child(5n+3) .palabra:hover { background: var(--c3h); border-color: var(--c3); color: #b02020; }
+  .frase-row:nth-child(5n+4) .palabra:hover { background: var(--c4h); border-color: var(--c4); color: #5b21b6; }
+  .frase-row:nth-child(5n+5) .palabra:hover { background: var(--c5h); border-color: var(--c5); color: #1a6b24; }
+
+  /* hablando */
+  .palabra.hablando {
+    animation: pulse-word 0.4s ease-in-out infinite alternate;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.14);
+  }
+  .frase-row:nth-child(5n+1) .palabra.hablando { background: var(--c1b); border-color: var(--c1d); color: var(--c1t); }
+  .frase-row:nth-child(5n+2) .palabra.hablando { background: var(--c2b); border-color: var(--c2d); color: #0d5c57; }
+  .frase-row:nth-child(5n+3) .palabra.hablando { background: var(--c3b); border-color: var(--c3d); color: #7a1010; }
+  .frase-row:nth-child(5n+4) .palabra.hablando { background: var(--c4b); border-color: var(--c4d); color: #3b0764; }
+  .frase-row:nth-child(5n+5) .palabra.hablando { background: var(--c5b); border-color: var(--c5d); color: #0e4016; }
+
+  @keyframes pulse-word {
+    from { transform: translateY(-3px) scale(1.08); }
+    to   { transform: translateY(-5px) scale(1.14); }
+  }
+
+  .punto { font-family: 'Baloo 2', cursive; font-size: 1.55rem; color: #ccc; }
+
+  /* Botón play */
+  .btn-play {
+    display: flex; align-items: center; gap: 6px;
+    padding: 7px 16px;
+    border: none; border-radius: 50px;
+    font-family: 'Baloo 2', cursive;
+    font-size: 0.95rem; font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.10);
+    flex-shrink: 0;
+  }
+  .btn-play:hover { transform: translateY(-2px) scale(1.05); box-shadow: 0 6px 14px rgba(0,0,0,0.14); }
+  .btn-play:active { transform: scale(0.97); }
+  .btn-play svg { width: 17px; height: 17px; flex-shrink: 0; }
+  .btn-play.playing { animation: btn-bounce 0.5s ease-in-out infinite alternate; }
+  @keyframes btn-bounce { from { transform: scale(1); } to { transform: scale(1.07); } }
+
+  .frase-row:nth-child(5n+1) .btn-play { background: var(--c1); color: var(--c1t); }
+  .frase-row:nth-child(5n+2) .btn-play { background: var(--c2); color: #fff; }
+  .frase-row:nth-child(5n+3) .btn-play { background: var(--c3); color: #fff; }
+  .frase-row:nth-child(5n+4) .btn-play { background: var(--c4); color: #fff; }
+  .frase-row:nth-child(5n+5) .btn-play { background: var(--c5); color: #fff; }
+
+  /* Tooltip */
+  .tooltip {
+    position: fixed;
+    background: rgba(30,30,30,0.82);
+    color: white; padding: 5px 14px;
+    border-radius: 20px; font-size: 0.88rem;
+    pointer-events: none; opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.2s, transform 0.2s;
+    z-index: 1000; white-space: nowrap;
+  }
+  .tooltip.show { opacity: 1; transform: translateY(0); }
+
+  footer { margin-top: 22px; text-align: center; font-size: 0.8rem; color: #bbb; }
+
+  @media (max-width: 600px) {
+    .card { padding: 20px 16px; }
+    .palabra { font-size: 1.25rem; }
+    .numero { font-size: 1.1rem; }
+    header h1 { font-size: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- zigzag top -->
+<div class="zigzag-border">
+<svg viewBox="0 0 860 28" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="0,28 20,4 40,28 60,4 80,28 100,4 120,28 140,4 160,28 180,4 200,28 220,4 240,28 260,4 280,28 300,4 320,28 340,4 360,28 380,4 400,28 420,4 440,28 460,4 480,28 500,4 520,28 540,4 560,28 580,4 600,28 620,4 640,28 660,4 680,28 700,4 720,28 740,4 760,28 780,4 800,28 820,4 840,28 860,4 860,28" fill="#FFD93D"/>
+</svg>
+</div>
+
+<div class="card">
+  <header>
+    <h1>📖 Lectura Divertida</h1>
+    <p>¡Toca cada palabra para escucharla! &nbsp;·&nbsp; Pulsa ▶ para oír la frase completa</p>
+  </header>
+
+  <div class="ilustracion"><div class="kids">🧒👧📚🌟</div></div>
+
+  <div class="frases" id="frases"></div>
+</div>
+
+<!-- zigzag bottom -->
+<div class="zigzag-border" style="transform:rotate(180deg)">
+<svg viewBox="0 0 860 28" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="0,28 20,4 40,28 60,4 80,28 100,4 120,28 140,4 160,28 180,4 200,28 220,4 240,28 260,4 280,28 300,4 320,28 340,4 360,28 380,4 400,28 420,4 440,28 460,4 480,28 500,4 520,28 540,4 560,28 580,4 600,28 620,4 640,28 660,4 680,28 700,4 720,28 740,4 760,28 780,4 800,28 820,4 840,28 860,4 860,28" fill="#FFD93D"/>
+</svg>
+</div>
+
+<footer>🎓 Fundación SEG · Red de Colegios &nbsp;|&nbsp; Web Speech API · Sin conexión a internet</footer>
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+// ── Frases ───────────────────────────────────────────────────────────────────
+// Cada frase es un array de tokens. Los tokens con * al inicio son puntuación (no clicable).
+const FRASES = [
+  ["Mamá", "lee", "un", "libro", "bonito", "*."],
+  ["El", "gato", "duerme", "en", "el", "sofá", "*."],
+  ["Lola", "y", "Lalo", "van", "al", "parque", "*."],
+  ["Mi", "perro", "come", "carne", "y", "agua", "*."],
+  ["El", "sol", "sale", "en", "la", "mañana", "*."],
+  ["Papá", "prepara", "la", "sopa", "caliente", "*."],
+  ["Los", "niños", "corren", "y", "saltan", "juntos", "*."],
+  ["La", "luna", "brilla", "en", "el", "cielo", "oscuro", "*."],
+  ["Mili", "pinta", "una", "flor", "morada", "*."],
+  ["El", "pato", "nada", "en", "el", "lago", "*."],
+  ["Tomi", "y", "Ana", "montan", "en", "bicicleta", "*."],
+  ["La", "maestra", "escribe", "en", "la", "pizarra", "*."],
+  ["El", "bebé", "llora", "y", "mamá", "lo", "abraza", "*."],
+  ["Kiko", "come", "una", "manzana", "roja", "*."],
+  ["El", "viento", "mueve", "las", "hojas", "del", "árbol", "*."],
+  ["Susi", "dibuja", "una", "casa", "con", "jardín", "*."],
+  ["Los", "pájaros", "cantan", "en", "la", "tarde", "*."],
+  ["Nino", "lee", "su", "cuento", "favorito", "*."],
+  ["La", "pelota", "rueda", "por", "la", "calle", "*."],
+  ["Polo", "y", "Lina", "juegan", "con", "arena", "*."],
+];
+
+// ── Render ────────────────────────────────────────────────────────────────────
+const contenedor = document.getElementById('frases');
+
+FRASES.forEach((tokens, idx) => {
+  // Texto limpio de la frase (sin puntuación)
+  const fraseLimpia = tokens
+    .filter(t => !t.startsWith('*'))
+    .join(' ');
+
+  const row = document.createElement('div');
+  row.className = 'frase-row';
+
+  // Número
+  const num = document.createElement('span');
+  num.className = 'numero';
+  num.textContent = `${idx + 1})`;
+  row.appendChild(num);
+
+  // Palabras
+  const palabrasDiv = document.createElement('div');
+  palabrasDiv.className = 'palabras';
+
+  tokens.forEach(token => {
+    if (token.startsWith('*')) {
+      // Puntuación
+      const punto = document.createElement('span');
+      punto.className = 'punto';
+      punto.textContent = token.slice(1);
+      palabrasDiv.appendChild(punto);
+    } else {
+      const span = document.createElement('span');
+      span.className = 'palabra';
+      span.textContent = token;
+      span.onclick = () => decirPalabra(span, token);
+      palabrasDiv.appendChild(span);
+    }
+  });
+
+  row.appendChild(palabrasDiv);
+
+  // Botón play
+  const btn = document.createElement('button');
+  btn.className = 'btn-play';
+  btn.title = 'Escuchar frase';
+  btn.innerHTML = iconoPlay() + ' Escuchar';
+  btn.onclick = () => decirFrase(btn, fraseLimpia);
+  row.appendChild(btn);
+
+  contenedor.appendChild(row);
+});
+
+// ── Speech ────────────────────────────────────────────────────────────────────
+const synth = window.speechSynthesis;
+let vozES = null;
+let palabraActiva = null;
+let botonActivo = null;
+
+function cargarVoces() {
+  const voces = synth.getVoices();
+  vozES =
+    voces.find(v => v.lang === 'es-ES') ||
+    voces.find(v => v.lang.startsWith('es-')) ||
+    voces.find(v => v.lang.startsWith('es')) ||
+    voces[0];
+}
+cargarVoces();
+if (synth.onvoiceschanged !== undefined) synth.onvoiceschanged = cargarVoces;
+
+function hablar(texto, onEnd) {
+  synth.cancel();
+  const u = new SpeechSynthesisUtterance(texto);
+  u.lang = 'es-ES';
+  if (vozES) u.voice = vozES;
+  u.rate = 0.85;
+  u.pitch = 1.1;
+  if (onEnd) u.onend = onEnd;
+  synth.speak(u);
+}
+
+function decirPalabra(el, texto) {
+  if (palabraActiva) palabraActiva.classList.remove('hablando');
+  if (botonActivo) { botonActivo.classList.remove('playing'); botonActivo.innerHTML = iconoPlay() + ' Escuchar'; botonActivo = null; }
+  palabraActiva = el;
+  el.classList.add('hablando');
+  mostrarTooltip(el, texto);
+  hablar(texto, () => {
+    el.classList.remove('hablando');
+    if (palabraActiva === el) palabraActiva = null;
+  });
+}
+
+function decirFrase(btn, texto) {
+  if (palabraActiva) { palabraActiva.classList.remove('hablando'); palabraActiva = null; }
+  if (botonActivo && botonActivo !== btn) { botonActivo.classList.remove('playing'); botonActivo.innerHTML = iconoPlay() + ' Escuchar'; }
+  botonActivo = btn;
+  btn.classList.add('playing');
+  btn.innerHTML = iconoPausa() + ' Leyendo…';
+  hablar(texto, () => {
+    btn.classList.remove('playing');
+    btn.innerHTML = iconoPlay() + ' Escuchar';
+    if (botonActivo === btn) botonActivo = null;
+  });
+}
+
+function iconoPlay() {
+  return '<svg viewBox="0 0 24 24" fill="currentColor" style="width:17px;height:17px;flex-shrink:0"><path d="M8 5v14l11-7z"/></svg>';
+}
+function iconoPausa() {
+  return '<svg viewBox="0 0 24 24" fill="currentColor" style="width:17px;height:17px;flex-shrink:0"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+}
+
+// ── Tooltip ───────────────────────────────────────────────────────────────────
+const tooltip = document.getElementById('tooltip');
+function mostrarTooltip(el, texto) {
+  const rect = el.getBoundingClientRect();
+  tooltip.textContent = '🔊 ' + texto;
+  tooltip.style.left = (rect.left + rect.width / 2 - tooltip.offsetWidth / 2) + 'px';
+  tooltip.style.top  = (rect.top + window.scrollY - 40) + 'px';
+  tooltip.classList.add('show');
+  setTimeout(() => tooltip.classList.remove('show'), 1200);
+}
+
+if (!('speechSynthesis' in window)) {
+  document.querySelector('header p').textContent =
+    '⚠️ Tu navegador no soporta síntesis de voz. Prueba con Chrome o Edge.';
+}
+</script>
+</body>
+</html>
