@@ -154,6 +154,14 @@
     }
     .card-matematicas .card-icon-bg { background: linear-gradient(135deg, #38bdf8, #a7f3d0); }
 
+    /* Inglés accent */
+    .card-ingles {
+      --glow-a: #fde68a;
+      --glow-b: #ff9ec4;
+      border-color: #fde68a;
+    }
+    .card-ingles .card-icon-bg { background: linear-gradient(135deg, #fde68a, #ff9ec4); }
+
     .card-header {
       display: flex;
       align-items: center;
@@ -245,6 +253,7 @@
     }
     .card-icon-bg { animation: bounce 2.5s ease-in-out infinite; }
     .card-matematicas .card-icon-bg { animation-delay: .8s; }
+    .card-ingles .card-icon-bg { animation-delay: 1.6s; }
   </style>
 </head>
 <body>
@@ -304,6 +313,24 @@
           </a>
         </li>
         <!-- Agregar más juegos aquí -->
+      </ul>
+    </section>
+
+
+    <!-- INGLÉS -->
+    <section class="subject-card card-ingles">
+      <div class="card-header">
+        <div class="card-icon-bg">🇬🇧</div>
+        <h2 class="card-title">Inglés</h2>
+      </div>
+      <ul class="game-list">
+        <li class="game-item">
+          <a href="html/english-practice-1.html">
+            <span class="game-emoji">🦁</span>
+            <span>Animales, parientes, lugares de la casa</span>
+            <span class="game-pill">Jugar</span>
+          </a>
+        </li>
       </ul>
     </section>
 
