@@ -50,28 +50,11 @@
       image-rendering: pixelated;
       animation: floatUp var(--fd, 6s) var(--fdel, 0s) linear infinite;
     }
-    .llama-deco {
-      position: fixed;
-      pointer-events: none;
-      z-index: 0;
-      image-rendering: pixelated;
-      width: var(--lw, 28px);
-      height: auto;
-      opacity: 0;
-      animation: floatLlama var(--ld, 20s) var(--ldel, 0s) linear infinite;
-    }
     @keyframes floatUp {
       0%   { transform: translateY(110vh) rotate(0deg); opacity: 0; }
       10%  { opacity: 1; }
       90%  { opacity: 1; }
       100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
-    }
-    @keyframes floatLlama {
-      0%   { transform: translateY(115vh) translateX(0) rotate(-4deg); opacity: 0; }
-      8%   { opacity: .85; }
-      42%  { transform: translateY(40vh) translateX(var(--lx, 24px)) rotate(4deg); opacity: .85; }
-      85%  { opacity: .85; }
-      100% { transform: translateY(-15vh) translateX(calc(var(--lx, 24px) * -1)) rotate(-3deg); opacity: 0; }
     }
 
     /* ── Layout ── */
@@ -395,25 +378,6 @@ for (let i = 0; i < 12; i++) {
     --fdel:${Math.random()*8}s;
   `;
   floatersEl.appendChild(f);
-}
-
-/* ──────────────────────────────────────
-   FLOATING LLAMA
-─────────────────────────────────────── */
-for (let i = 0; i < 2; i++) {
-  const llama = document.createElement('img');
-  llama.className = 'llama-deco';
-  llama.src = './images/llama.png';
-  llama.alt = '';
-  llama.setAttribute('aria-hidden', 'true');
-  llama.style.cssText = `
-    left:${Math.random()*100}%;
-    --lw:${22 + Math.random()*14}px;
-    --ld:${18 + Math.random()*14}s;
-    --ldel:${Math.random()*16}s;
-    --lx:${12 + Math.random()*30}px;
-  `;
-  floatersEl.appendChild(llama);
 }
 
 /* ──────────────────────────────────────
