@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prueba de Matemáticas</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: #fff;
+    color: #222;
+    font-size: 14px;
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 auto;
+    padding: 14mm 16mm;
+  }
+
+  .header {
+    text-align: center;
+    border: 2.5px solid #333;
+    border-radius: 10px;
+    padding: 10px 16px;
+    margin-bottom: 16px;
+  }
+
+  .header h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 20px;
+    color: #1a1a8c;
+  }
+
+  .header-fields {
+    display: flex;
+    gap: 24px;
+    margin-top: 8px;
+    font-size: 13px;
+  }
+
+  .field-line {
+    flex: 1;
+    border-bottom: 1.5px solid #333;
+    min-width: 120px;
+    height: 20px;
+  }
+
+  .field-label { font-weight: 700; white-space: nowrap; }
+
+  /* Question box */
+  .q-box {
+    border: 1.5px solid #555;
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 14px;
+    page-break-inside: avoid;
+  }
+
+  .q-title {
+    font-weight: 700;
+    margin-bottom: 8px;
+    font-size: 13.5px;
+  }
+
+  /* Options */
+  .options { list-style: none; padding: 0; margin-top: 6px; }
+  .options li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 5px;
+    font-size: 13px;
+  }
+
+  .bubble {
+    width: 18px; height: 18px;
+    border: 1.8px solid #333;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* Inline content helpers */
+  .row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 6px 0; }
+  .col { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+
+  /* Dice / dot grids */
+  .dice {
+    width: 52px; height: 52px;
+    border: 2px solid #444;
+    border-radius: 8px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    padding: 5px;
+    gap: 3px;
+  }
+  .dot {
+    width: 10px; height: 10px;
+    background: #333;
+    border-radius: 50%;
+    justify-self: center;
+    align-self: center;
+  }
+
+  /* Bags */
+  .bag-row { display: flex; gap: 20px; align-items: flex-end; margin: 8px 0; }
+  .bag { text-align: center; }
+  .bag svg { display: block; margin: 0 auto; }
+  .bag-label { font-weight: 700; font-size: 13px; margin-top: 2px; }
+
+  /* Number cards */
+  .num-card {
+    border: 2px solid #333;
+    border-radius: 6px;
+    width: 32px; height: 32px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 16px;
+  }
+
+  /* Animal race */
+  .race-scene {
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+    padding: 8px;
+    border: 1px dashed #aaa;
+    border-radius: 6px;
+    margin: 6px 0;
+    font-size: 28px;
+  }
+  .finish-flag {
+    font-size: 28px;
+    margin-right: 8px;
+  }
+
+  /* Toy shelf */
+  .shelf {
+    border: 2px solid #555;
+    border-radius: 6px;
+    padding: 6px 10px;
+    display: inline-block;
+    margin: 6px 0;
+    font-size: 22px;
+  }
+  .shelf-row { border-bottom: 1px solid #999; padding: 3px 0; }
+  .shelf-row:last-child { border-bottom: none; }
+
+  /* People row */
+  .people-row { display: flex; gap: 12px; align-items: flex-end; margin: 6px 0; font-size: 28px; }
+  .person-col { text-align: center; font-size: 11px; font-weight: 700; }
+
+  /* Building */
+  .building { display: inline-block; border: 2px solid #444; margin: 6px 0; }
+  .floor {
+    display: flex;
+    border-bottom: 1px solid #aaa;
+  }
+  .floor:last-child { border-bottom: none; }
+  .cell {
+    width: 30px; height: 26px;
+    border-right: 1px solid #aaa;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+  .cell:last-child { border-right: none; }
+  .floor-label {
+    font-size: 10px;
+    font-weight: 700;
+    writing-mode: vertical-lr;
+    transform: rotate(180deg);
+    border-left: 1px solid #aaa;
+    padding: 2px 3px;
+    background: #f5f5f5;
+  }
+
+  /* Dots on board */
+  .dots-board {
+    display: grid;
+    grid-template-columns: repeat(4,18px);
+    gap: 4px;
+    padding: 6px;
+    background: #eee;
+    border-radius: 6px;
+    margin: 4px 0;
+  }
+  .dot-sm { width:14px;height:14px;background:#555;border-radius:50%; }
+
+  /* Sets / ovals */
+  .set-oval {
+    border: 2px solid #444;
+    border-radius: 50%;
+    padding: 8px 14px;
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    align-items: center;
+    justify-content: center;
+    min-width: 80px;
+    min-height: 60px;
+    font-size: 20px;
+  }
+
+  /* Marbles */
+  .marble {
+    width: 20px; height: 20px;
+    background: radial-gradient(circle at 35% 35%, #aaa, #555);
+    border-radius: 50%;
+    border: 1px solid #333;
+    display: inline-block;
+  }
+
+  /* 3D shapes */
+  .shapes-row { display: flex; gap: 12px; align-items: center; font-size: 26px; margin: 4px 0; }
+
+  /* Answer box */
+  .answer-box {
+    border: 1.5px dashed #aaa;
+    border-radius: 6px;
+    min-height: 28px;
+    min-width: 60px;
+    display: inline-block;
+    padding: 2px 8px;
+    margin: 2px 4px;
+  }
+
+  /* Medals */
+  .medals-row { display: flex; gap: 10px; align-items: flex-end; margin: 8px 0; }
+  .medal { text-align: center; }
+  .medal-icon { font-size: 26px; }
+  .medal-num {
+    width: 28px; height: 28px;
+    border: 2px solid #333;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 12px;
+    margin: 0 auto;
+    background: #fff;
+  }
+  .medal-num.blank { background: #f9f9c0; }
+
+  /* Cube groups */
+  .cube-groups { display: flex; gap: 16px; margin: 8px 0; }
+  .cube-group {
+    border: 1.5px solid #555;
+    border-radius: 6px;
+    padding: 8px;
+    font-size: 22px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    width: 80px;
+    justify-content: center;
+  }
+
+  /* Cylinders & cubes comparison */
+  .shapes-compare { display: flex; gap: 30px; align-items: center; margin: 8px 0; }
+  .shape-group { text-align: center; }
+  .shape-group-num { font-size: 28px; font-weight: 900; }
+
+  /* Bolitas options */
+  .ball-option { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+
+  /* Page break */
+  .page-break { page-break-before: always; padding-top: 14mm; }
+
+  @media print {
+    body { background: #fff; }
+    .page { margin: 0; padding: 12mm 14mm; }
+    .page-break { page-break-before: always; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <h1>📐 Prueba de Matemáticas 📐</h1>
+    <div class="header-fields">
+      <span class="field-label">Nombre:</span><span class="field-line"></span>
+      <span class="field-label">Fecha:</span><span class="field-line" style="max-width:100px"></span>
+      <span class="field-label">Puntaje:</span><span class="field-line" style="max-width:70px"></span>
+    </div>
+  </div>
+
+
+
+  <!-- P2 -->
+  <div class="q-box">
+    <div class="q-title">2.- Cuenta los siguientes elementos:</div>
+    <div class="row">
+      <div class="shelf">
+        <div class="shelf-row">🪣 🧒 🪀</div>
+        <div class="shelf-row">🦆 🐴 🎠</div>
+        <div class="shelf-row">🚂 🦕</div>
+        <div class="shelf-row" style="font-size:13px; color:#888; text-align:center;">— cajones cerrados —</div>
+      </div>
+    </div>
+    <div class="q-title" style="margin-top:6px">¿Cuántos juguetes hay en el mueble?</div>
+    <ul class="options">
+      <li><span class="bubble"></span> A. 6</li>
+      <li><span class="bubble"></span> B. 7</li>
+      <li><span class="bubble"></span> C. 8</li>
+    </ul>
+  </div>
+
+
+
+  <!-- P4 -->
+  <div class="q-box">
+    <div class="q-title">4.- ¿Qué animal llegó a la meta en segundo lugar?</div>
+    <div class="race-scene">
+      <span class="finish-flag">🏁</span>
+      <span>🐕</span>
+      <span>🐢</span>
+      <span>🐱</span>
+      <span>🐘</span>
+    </div>
+    <div style="font-size:11px; color:#666; margin-bottom:6px;">El perro está en 1°, luego la tortuga, el gato y el elefante al final.</div>
+    <ul class="options">
+      <li><span class="bubble"></span> A. El gato.</li>
+      <li><span class="bubble"></span> B. El elefante.</li>
+      <li><span class="bubble"></span> C. La tortuga.</li>
+    </ul>
+  </div>
+
+  <!-- P5 -->
+  <div class="q-box">
+    <div class="q-title">5.- Observa la imagen.</div>
+    <div class="people-row">
+      <div class="person-col"><div style="font-size:28px">🧒</div><div>Pepe</div></div>
+      <div class="person-col"><div style="font-size:28px">👧</div><div>Lulú</div></div>
+      <div class="person-col" style="border:2px solid #333; border-radius:6px; padding:2px 6px;"><div style="font-size:28px">🧒</div><div>Pipo</div></div>
+      <div class="person-col"><div style="font-size:28px">👧</div><div>Lili</div></div>
+    </div>
+    <div class="q-title">¿Quién está en tercer lugar en la fila?</div>
+    <ul class="options">
+      <li><span class="bubble"></span> A. Lulú.</li>
+      <li><span class="bubble"></span> B. Pipo.</li>
+      <li><span class="bubble"></span> C. Lili.</li>
+    </ul>
+  </div>
+
+  <!-- P6 -->
+  <div class="q-box">
+    <div class="q-title">6.- El gato, el ratón y el perro están en una fila.<br>
+    El gato es el último de la fila.<br>
+    El ratón no es el 2°.</div>
+    <div style="display:flex; gap:30px; margin:10px 0; align-items:flex-end;">
+      <div class="col">
+        <div style="border:1.5px solid #555; border-radius:6px; width:70px; height:40px;"></div>
+        <div style="font-size:11px; font-weight:700;">1º LUGAR</div>
+      </div>
+      <div class="col">
+        <div style="border:1.5px solid #555; border-radius:6px; width:70px; height:40px;"></div>
+        <div style="font-size:11px; font-weight:700;">2º LUGAR</div>
+      </div>
+      <div class="col">
+        <div style="border:1.5px solid #555; border-radius:6px; width:70px; height:40px;"></div>
+        <div style="font-size:11px; font-weight:700;">3º LUGAR</div>
+      </div>
+    </div>
+    <div class="q-title">¿Quién ocupa el lugar del medio?</div>
+    <ul class="options">
+      <li><span class="bubble"></span> A. El gato.</li>
+      <li><span class="bubble"></span> B. El ratón.</li>
+      <li><span class="bubble"></span> C. El perro.</li>
+    </ul>
+  </div>
+
+  <!-- P7 -->
+  <div class="q-box">
+    <div class="q-title">7.- La profesora Julieta compró algunas medallas para entregarles a los estudiantes por su participación en las olimpiadas matemáticas.</div>
+    <div class="medals-row">
+      <div class="medal"><div class="medal-icon">🥇</div><div class="medal-num">1°</div></div>
+      <div class="medal"><div class="medal-icon">🥈</div><div class="medal-num">2°</div></div>
+      <div class="medal"><div class="medal-icon">🥉</div><div class="medal-num">3°</div></div>
+      <div class="medal"><div class="medal-icon">🏅</div><div class="medal-num">4°</div></div>
+      <div class="medal"><div class="medal-icon">🏅</div><div class="medal-num blank"></div></div>
+      <div class="medal"><div class="medal-icon">🏅</div><div class="medal-num">6°</div></div>
+    </div>
+    <div class="q-title">Si las ordenó del 1° lugar al 6° lugar, ¿qué lugar va en la medalla que falta escribir?</div>
+    <ul class="options">
+      <li><span class="bubble"></span> A. 3° lugar.</li>
+      <li><span class="bubble"></span> B. 5° lugar.</li>
+      <li><span class="bubble"></span> C. 7° lugar.</li>
+    </ul>
+  </div>
+
+  <!-- P8 -->
+  <div class="q-box">
+    <div class="q-title">8.- Si ordenamos la cantidad de elementos de cada grupo de menor a mayor. ¿Qué grupo estaría en primer lugar?</div>
+    <div class="cube-groups">
+      <div class="cube-group">🧊🧊🧊🧊🧊</div>
+      <div class="cube-group">🧊🧊🧊🧊</div>
+      <div class="cube-group">🧊🧊🧊</div>
+    </div>
+    <ul class="options">
+      <li><span class="bubble"></span> A. El que tiene 5 elementos.</li>
+      <li><span class="bubble"></span> B. El que tiene 4 elementos.</li>
+      <li><span class="bubble"></span> C. El que tiene 3 elementos.</li>
+    </ul>
+  </div>
+
+  <!-- P9 -->
+  <div class="q-box">
+    <div class="q-title">9.- Observa el edificio.</div>
+    <div style="display:flex; gap:10px; align-items:flex-end; margin:6px 0;">
+      <div>
+        <div class="building">
+          <div class="floor">
+            <div class="cell"></div><div class="cell">🦉</div><div class="floor-label">Piso 6</div>
+          </div>
+          <div class="floor">
+            <div class="cell"></div><div class="cell">🐱</div><div class="floor-label">Piso 5</div>
+          </div>
+          <div class="floor">
+            <div class="cell">🐦</div><div class="cell"></div><div class="floor-label">Piso 4</div>
+          </div>
+          <div class="floor">
+            <div class="cell"></div><div class="cell"></div><div class="floor-label">Piso 3</div>
+          </div>
+          <div class="floor">
+            <div class="cell"></div><div class="cell"></div><div class="floor-label">Piso 2</div>
+          </div>
+          <div class="floor">
+            <div class="cell"></div><div class="cell"></div><div class="floor-label">Piso 1</div>
+          </div>
+        </div>
+        <div style="font-size:11px; text-align:center; margin-top:3px;">⬆ Piso 1</div>
+      </div>
+    </div>
+    <div class="q-title">¿En qué piso está el pajarito?</div>
+    <ul class="options">
+      <li><span class="bubble"></span> A. En el 4° piso.</li>
+      <li><span class="bubble"></span> B. En el 5° piso.</li>
+      <li><span class="bubble"></span> C. En el 6° piso.</li>
+    </ul>
+  </div>
+
+
+
+</div>
+
+<!-- PAGE 2 -->
+<div class="page page-break">
+
+  <!-- P15 -->
+  <div class="q-box">
+    <div class="q-title">15.- Pedro tiene que repartir una manzana a cada niño.</div>
+    <div style="display:flex; gap:14px; align-items:center; margin:6px 0;">
+      <div style="font-size:30px;">👦👧👦👧👦👧👦</div>
+      <div style="font-size:28px;">🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎</div>
+    </div>
+    <div style="font-size:11px; color:#666; margin-bottom:4px;">Hay 7 niños y un plato con manzanas.</div>
+    <div class="q-title">¿Cuántas manzanas tiene que sacar del plato para repartir una a cada niño?</div>
+    <ul class="options">
+      <li><span class="bubble"></span> A. 6</li>
+      <li><span class="bubble"></span> B. 7</li>
+      <li><span class="bubble"></span> C. 8</li>
+    </ul>
+  </div>
+
+  <!-- P16 -->
+  <div class="q-box">
+    <div class="q-title">16.- ¿En qué opción los números 4, 9 y 7 están ordenados de menor a mayor?</div>
+    <ul class="options">
+      <li><span class="bubble"></span> A. 4, 7, 9</li>
+      <li><span class="bubble"></span> B. 4, 9, 7</li>
+      <li><span class="bubble"></span> C. 9, 7, 4</li>
+    </ul>
+  </div>
+
+  <!-- P17 -->
+  <div class="q-box">
+    <div class="q-title">17.- ¿En qué opción las tarjetas están ordenadas de menor a mayor?</div>
+    <div style="margin:8px 0;">
+      <div class="row" style="margin-bottom:8px;">A. <span class="num-card">7</span> <span class="num-card">5</span> <span class="num-card">3</span></div>
+      <div class="row" style="margin-bottom:8px;">B. <span class="num-card">3</span> <span class="num-card">5</span> <span class="num-card">7</span></div>
+      <div class="row">C. <span class="num-card">3</span> <span class="num-card">7</span> <span class="num-card">5</span></div>
+    </div>
+    <ul class="options" style="display:none"></ul>
+    <div style="font-size:12px; color:#666; margin-top:4px;">Marca la opción correcta: <span class="bubble" style="display:inline-block;"></span> A &nbsp;&nbsp; <span class="bubble" style="display:inline-block;"></span> B &nbsp;&nbsp; <span class="bubble" style="display:inline-block;"></span> C</div>
+  </div>
+
+  <!-- P18 -->
+  <div class="q-box">
+    <div class="q-title">18.- ¿Cuál de los siguientes números es el menor?</div>
+    <div class="row" style="justify-content:center; gap:10px; margin:8px 0;">
+      <span class="num-card" style="width:42px;height:42px;font-size:20px;">8</span>
+      <span class="num-card" style="width:42px;height:42px;font-size:20px;">5</span>
+      <span class="num-card" style="width:42px;height:42px;font-size:20px;">10</span>
+    </div>
+    <ul class="options">
+      <li><span class="bubble"></span> A. 5</li>
+      <li><span class="bubble"></span> B. 8</li>
+      <li><span class="bubble"></span> C. 10</li>
+    </ul>
+  </div>
+
+  <!-- P19 -->
+  <div class="q-box">
+    <div class="q-title">19.- Marca la opción con más bolitas.</div>
+    <div style="margin:6px 0;">
+      <div class="ball-option">
+        <span class="bubble"></span> A.
+        <span class="marble"></span><span class="marble"></span><span class="marble"></span><span class="marble"></span><span class="marble"></span><span class="marble"></span>
+      </div>
+      <div class="ball-option">
+        <span class="bubble"></span> B.
+        <span class="marble"></span><span class="marble"></span><span class="marble"></span><span class="marble"></span>
+      </div>
+      <div class="ball-option">
+        <span class="bubble"></span> C.
+        <span class="marble"></span><span class="marble"></span><span class="marble"></span><span class="marble"></span><span class="marble"></span><span class="marble"></span><span class="marble"></span>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- P23 -->
+  <div class="q-box">
+    <div class="q-title">23.- Observa las figuras.</div>
+    <div style="display:flex; gap:20px; align-items:center; margin:8px 0;">
+      <div style="text-align:center;">
+        <div style="font-size:36px; font-weight:900; color:#333;">8</div>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:4px; max-width:120px; font-size:22px;">
+        🥫🥫🥫🥫🥫🥫🥫🥫
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:4px; max-width:140px; font-size:22px;">
+        🧊🧊🧊🧊🧊🧊🧊🧊🧊
+      </div>
+      <div style="text-align:center;">
+        <div style="font-size:36px; font-weight:900; color:#333;">9</div>
+      </div>
+    </div>
+    <div class="q-title">¿Cuál es la afirmación correcta?</div>
+    <ul class="options">
+      <li><span class="bubble"></span> A. Hay más 🥫 que 🧊</li>
+      <li><span class="bubble"></span> B. Hay más 🧊 que 🥫</li>
+      <li><span class="bubble"></span> C. Hay menos 🧊 que 🥫</li>
+    </ul>
+  </div>
+
+  <!-- P24 -->
+  <div class="q-box">
+    <div class="q-title">24.- Observa los elementos de los siguientes conjuntos.</div>
+    <div style="display:flex; gap:20px; align-items:center; margin:8px 0;">
+      <div class="set-oval">🎉🎉🎉🎉🎉🎉</div>
+      <div class="set-oval">🎈🎈🎈🎈🎈🎈🎈🎈</div>
+    </div>
+    <div class="q-title">El número de gorros es:</div>
+    <ul class="options">
+      <li><span class="bubble"></span> A. Menor que el número de globos.</li>
+      <li><span class="bubble"></span> B. Mayor que el número de globos.</li>
+      <li><span class="bubble"></span> C. Igual al número de globos.</li>
+    </ul>
+  </div>
+
+  <!-- P25 -->
+  <div class="q-box">
+    <div class="q-title">25.- Observa las siguientes colecciones de objetos:</div>
+    <div style="display:flex; gap:20px; align-items:center; margin:8px 0;">
+      <div class="set-oval" style="min-width:100px; min-height:80px; font-size:16px;">
+        🌸🌸🌸🌸🌸🌸🌸🌸
+      </div>
+      <div class="set-oval" style="min-width:100px; min-height:80px; font-size:22px;">
+        ⚽⚽⚽⚽⚽⚽⚽⚽⚽⚽⚽
+      </div>
+    </div>
+    <div class="q-title">¿Cuántas flores debes agregar para que sean más que las pelotas?</div>
+    <ul class="options">
+      <li><span class="bubble"></span> A. 2</li>
+      <li><span class="bubble"></span> B. 3</li>
+      <li><span class="bubble"></span> C. 4</li>
+    </ul>
+  </div>
+
+  <div style="text-align:center; margin-top:20px; font-size:12px; color:#999; border-top:1px dashed #ccc; padding-top:10px;">
+    ¡Mucho ánimo! 🌟 Revisa tus respuestas antes de entregar.
+  </div>
+
+</div>
+</body>
+</html>
