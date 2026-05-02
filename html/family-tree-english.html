@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Family Tree – Victoria's English Practice</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sky: #b8eaf9;
+    --green: #5db85c;
+    --pink: #f76fa3;
+    --blue: #5baef7;
+    --purple: #a37ee8;
+    --yellow: #ffd166;
+    --orange: #ff9f43;
+    --white: #fff;
+    --card-bg: #fffdf7;
+    --shadow: 0 4px 18px rgba(0,0,0,0.10);
+    --radius: 20px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(180deg, var(--sky) 0%, #d4f5c4 60%, #a8e063 100%);
+    min-height: 100vh;
+    padding: 24px 16px 48px;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .banner {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--pink), #ff4d8d);
+    color: white;
+    font-family: 'Baloo 2', cursive;
+    font-size: clamp(1.6rem, 5vw, 2.6rem);
+    font-weight: 800;
+    padding: 14px 40px;
+    border-radius: 50px;
+    box-shadow: 0 6px 20px rgba(247,111,163,0.4);
+    letter-spacing: 1px;
+  }
+
+  .subtitle {
+    margin-top: 10px;
+    font-size: 1rem;
+    color: #4a7a2e;
+    font-weight: 600;
+  }
+
+  /* Grid layout */
+  .tree-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  /* Row labels */
+  .row-label {
+    font-family: 'Baloo 2', cursive;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #fff;
+    background: rgba(0,0,0,0.18);
+    display: inline-block;
+    padding: 3px 14px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+
+  .row {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* Person card */
+  .card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 20px 18px 18px;
+    width: 200px;
+    min-width: 170px;
+    flex: 1 1 170px;
+    max-width: 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    transition: transform 0.2s;
+  }
+  .card:hover { transform: translateY(-4px); }
+
+  .avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    margin-bottom: 4px;
+    border: 4px solid white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+  }
+
+  .relation-badge {
+    font-family: 'Baloo 2', cursive;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: white;
+    padding: 3px 14px;
+    border-radius: 20px;
+    text-transform: uppercase;
+  }
+
+  .phrase-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .phrase-line {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+
+  .words-wrap {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: wrap;
+    flex: 1;
+  }
+
+  .word-btn {
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 700;
+    padding: 5px 10px;
+    border: 2.5px solid transparent;
+    border-radius: 10px;
+    background: #f0f4ff;
+    color: #2d3a5e;
+    cursor: pointer;
+    transition: all 0.15s;
+    line-height: 1.2;
+  }
+  .word-btn:hover {
+    background: #ffe0f0;
+    border-color: var(--pink);
+    transform: scale(1.08);
+  }
+  .word-btn.speaking {
+    background: var(--yellow);
+    border-color: var(--orange);
+    transform: scale(1.12);
+    box-shadow: 0 2px 10px rgba(255,159,67,0.3);
+  }
+
+  .play-btn {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    font-size: 0.9rem;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.18);
+    background: linear-gradient(135deg, var(--c), color-mix(in srgb, var(--c) 70%, black));
+  }
+  .play-btn:hover {
+    filter: brightness(1.15);
+    transform: scale(1.12);
+  }
+  .play-btn:active { transform: scale(0.93); }
+  .play-btn.playing {
+    animation: pulse 0.6s ease-in-out infinite alternate;
+  }
+  @keyframes pulse {
+    from { opacity: 1; }
+    to { opacity: 0.65; }
+  }
+
+  /* Colors per person */
+  .me    { --c: var(--pink); }
+  .mom   { --c: #f76fa3; }
+  .dad   { --c: var(--blue); }
+  .gf1   { --c: var(--green); }
+  .gm1   { --c: var(--purple); }
+  .gf2   { --c: #4ecdc4; }
+  .gm2   { --c: var(--orange); }
+
+  .avatar { background: color-mix(in srgb, var(--c) 20%, white); border-color: var(--c); }
+  .relation-badge { background: var(--c); }
+
+  /* Tip bubble */
+  .tip {
+    text-align: center;
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(6px);
+    border-radius: 50px;
+    padding: 8px 20px;
+    font-size: 0.82rem;
+    color: #4a6a2e;
+    font-weight: 600;
+    margin: 8px auto 4px;
+    max-width: 480px;
+  }
+  .tip span { font-size: 1em; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="banner">🌳 My Family Tree</div>
+  <p class="subtitle">Victoria's English Practice ✨</p>
+  <p class="tip"><span>👆</span> Tap each word to hear it · <span>▶️</span> Play the full sentence</p>
+</header>
+
+<div class="tree-grid">
+
+  <!-- ME -->
+  <div style="text-align:center">
+    <div class="row-label">Me</div>
+    <div class="row">
+      <div class="card me">
+        <div class="avatar">👧</div>
+        <div class="relation-badge">ME</div>
+        <div class="phrase-container">
+          <div class="phrase-line"><div class="words-wrap" id="phrase-me-1"></div><button class="play-btn" title="Play" onclick="playLine('me',0)">▶</button></div>
+          <div class="phrase-line"><div class="words-wrap" id="phrase-me-2"></div><button class="play-btn" title="Play" onclick="playLine('me',1)">▶</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PARENTS -->
+  <div style="text-align:center">
+    <div class="row-label">Parents</div>
+    <div class="row">
+      <div class="card mom">
+        <div class="avatar">👩‍⚕️</div>
+        <div class="relation-badge">MOM</div>
+        <div class="phrase-container">
+          <div class="phrase-line"><div class="words-wrap" id="phrase-mom-1"></div><button class="play-btn" title="Play" onclick="playLine('mom',0)">▶</button></div>
+          <div class="phrase-line"><div class="words-wrap" id="phrase-mom-2"></div><button class="play-btn" title="Play" onclick="playLine('mom',1)">▶</button></div>
+        </div>
+      </div>
+      <div class="card dad">
+        <div class="avatar">👨‍💻</div>
+        <div class="relation-badge">DAD</div>
+        <div class="phrase-container">
+          <div class="phrase-line"><div class="words-wrap" id="phrase-dad-1"></div><button class="play-btn" title="Play" onclick="playLine('dad',0)">▶</button></div>
+          <div class="phrase-line"><div class="words-wrap" id="phrase-dad-2"></div><button class="play-btn" title="Play" onclick="playLine('dad',1)">▶</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GRANDPARENTS -->
+  <div style="text-align:center">
+    <div class="row-label">Grandparents</div>
+    <div class="row">
+      <div class="card gf1">
+        <div class="avatar">👴</div>
+        <div class="relation-badge">Grandfather</div>
+        <div class="phrase-container">
+          <div class="phrase-line"><div class="words-wrap" id="phrase-gf1-1"></div><button class="play-btn" title="Play" onclick="playLine('gf1',0)">▶</button></div>
+          <div class="phrase-line"><div class="words-wrap" id="phrase-gf1-2"></div><button class="play-btn" title="Play" onclick="playLine('gf1',1)">▶</button></div>
+        </div>
+      </div>
+      <div class="card gm1">
+        <div class="avatar">👵</div>
+        <div class="relation-badge">Grandmother</div>
+        <div class="phrase-container">
+          <div class="phrase-line"><div class="words-wrap" id="phrase-gm1-1"></div><button class="play-btn" title="Play" onclick="playLine('gm1',0)">▶</button></div>
+          <div class="phrase-line"><div class="words-wrap" id="phrase-gm1-2"></div><button class="play-btn" title="Play" onclick="playLine('gm1',1)">▶</button></div>
+        </div>
+      </div>
+      <div class="card gf2">
+        <div class="avatar">👴</div>
+        <div class="relation-badge">Grandfather</div>
+        <div class="phrase-container">
+          <div class="phrase-line"><div class="words-wrap" id="phrase-gf2-1"></div><button class="play-btn" title="Play" onclick="playLine('gf2',0)">▶</button></div>
+          <div class="phrase-line"><div class="words-wrap" id="phrase-gf2-2"></div><button class="play-btn" title="Play" onclick="playLine('gf2',1)">▶</button></div>
+        </div>
+      </div>
+      <div class="card gm2">
+        <div class="avatar">👵</div>
+        <div class="relation-badge">Grandmother</div>
+        <div class="phrase-container">
+          <div class="phrase-line"><div class="words-wrap" id="phrase-gm2-1"></div><button class="play-btn" title="Play" onclick="playLine('gm2',0)">▶</button></div>
+          <div class="phrase-line"><div class="words-wrap" id="phrase-gm2-2"></div><button class="play-btn" title="Play" onclick="playLine('gm2',1)">▶</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const phrases = {
+    me:  { lines: [["This", "is", "me."], ["My", "name", "is", "Victoria."]] },
+    mom: { lines: [["This", "is", "my", "mom."], ["She", "is", "a", "nurse."]] },
+    dad: { lines: [["This", "is", "my", "dad."], ["He", "works", "with", "computers."]] },
+    gf1: { lines: [["This", "is", "my", "grandfather."], ["He", "is", "happy."]] },
+    gm1: { lines: [["This", "is", "my", "grandmother."], ["She", "is", "loving."]] },
+    gf2: { lines: [["This", "is", "my", "grandfather."], ["He", "is", "playful."]] },
+    gm2: { lines: [["This", "is", "my", "grandmother."], ["She", "is", "silly."]] },
+  };
+
+  // Build word buttons inside .words-wrap divs
+  Object.entries(phrases).forEach(([key, data]) => {
+    data.lines.forEach((words, lineIdx) => {
+      const container = document.getElementById(`phrase-${key}-${lineIdx + 1}`);
+      words.forEach(word => {
+        const btn = document.createElement('button');
+        btn.className = 'word-btn';
+        btn.textContent = word;
+        btn.onclick = () => speakWord(word.replace(/\./g, ''), btn);
+        container.appendChild(btn);
+      });
+    });
+  });
+
+  // Speak a single word
+  function speakWord(text, btn) {
+    window.speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = 'en-US';
+    utter.rate = 0.85;
+    utter.pitch = 1.1;
+    if (btn) {
+      btn.classList.add('speaking');
+      utter.onend = () => btn.classList.remove('speaking');
+      utter.onerror = () => btn.classList.remove('speaking');
+    }
+    window.speechSynthesis.speak(utter);
+  }
+
+  // Play a single line (lineIdx = 0 or 1)
+  function playLine(key, lineIdx) {
+    window.speechSynthesis.cancel();
+    const words = phrases[key].lines[lineIdx];
+    const text = words.join(' ').replace(/\./g, '');
+
+    const container = document.getElementById(`phrase-${key}-${lineIdx + 1}`);
+    const wordBtns = container.querySelectorAll('.word-btn');
+
+    // Find the play button for this line (sibling of container inside .phrase-line)
+    const phraseLine = container.closest('.phrase-line');
+    const playBtn = phraseLine ? phraseLine.querySelector('.play-btn') : null;
+
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = 'en-US';
+    utter.rate = 0.82;
+    utter.pitch = 1.1;
+
+    let wordIndex = 0;
+    utter.onboundary = (e) => {
+      if (e.name === 'word') {
+        wordBtns.forEach(b => b.classList.remove('speaking'));
+        if (wordBtns[wordIndex]) {
+          wordBtns[wordIndex].classList.add('speaking');
+          wordIndex++;
+        }
+      }
+    };
+    utter.onend = () => {
+      wordBtns.forEach(b => b.classList.remove('speaking'));
+      if (playBtn) playBtn.classList.remove('playing');
+    };
+    utter.onerror = () => {
+      wordBtns.forEach(b => b.classList.remove('speaking'));
+      if (playBtn) playBtn.classList.remove('playing');
+    };
+
+    if (playBtn) playBtn.classList.add('playing');
+    window.speechSynthesis.speak(utter);
+  }
+</script>
+</body>
+</html>
