@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Prueba fundacional de matemáticas 1</title>
+<style>
+  /* Juego autocontenido: no usa internet ni archivos externos. */
+  :root {
+    --fondo-1: #fff5fb;
+    --fondo-2: #e8f8ff;
+    --morado: #8b5cf6;
+    --morado-oscuro: #4c1d95;
+    --rosado: #ff70a6;
+    --amarillo: #ffd166;
+    --verde: #55d187;
+    --celeste: #4cc9f0;
+    --naranjo: #ff9f1c;
+    --rojo: #ef476f;
+    --blanco: #ffffff;
+    --texto: #2b2350;
+    --sombra: rgba(76, 29, 149, 0.18);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: "Trebuchet MS", "Arial Rounded MT Bold", Arial, sans-serif;
+    color: var(--texto);
+    background:
+      radial-gradient(circle at 10% 15%, rgba(255, 112, 166, 0.24), transparent 28%),
+      radial-gradient(circle at 85% 20%, rgba(76, 201, 240, 0.28), transparent 30%),
+      radial-gradient(circle at 40% 90%, rgba(255, 209, 102, 0.34), transparent 34%),
+      linear-gradient(135deg, var(--fondo-1), var(--fondo-2));
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: "🌈 ✨ ⭐ 🦄 💜 🍎 🔢";
+    position: fixed;
+    inset: auto 0 18px 0;
+    text-align: center;
+    font-size: clamp(1.3rem, 4vw, 2rem);
+    letter-spacing: 0.7rem;
+    opacity: 0.18;
+    pointer-events: none;
+  }
+
+  button {
+    font: inherit;
+    border: 0;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+
+  .app {
+    width: min(1060px, 100%);
+    margin: 0 auto;
+    padding: 18px;
+  }
+
+  .top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .home-link,
+  .sound-btn {
+    min-height: 48px;
+    padding: 12px 16px;
+    border-radius: 999px;
+    color: var(--morado-oscuro);
+    background: rgba(255, 255, 255, 0.78);
+    box-shadow: 0 8px 18px var(--sombra);
+    font-weight: 900;
+    text-decoration: none;
+  }
+
+  .screen {
+    display: none;
+    background: rgba(255, 255, 255, 0.86);
+    border: 4px solid rgba(139, 92, 246, 0.28);
+    border-radius: 32px;
+    box-shadow: 0 18px 42px var(--sombra);
+    padding: clamp(18px, 4vw, 34px);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .screen.active { display: block; }
+
+  .hero {
+    text-align: center;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 8px 16px;
+    margin-bottom: 10px;
+    border-radius: 999px;
+    background: #fff0b8;
+    color: #805200;
+    font-weight: 900;
+  }
+
+  h1,
+  h2,
+  h3,
+  p { margin-top: 0; }
+
+  h1 {
+    font-size: clamp(2rem, 7vw, 4.2rem);
+    line-height: 1;
+    margin-bottom: 12px;
+    color: var(--morado-oscuro);
+  }
+
+  .rainbow-title {
+    background: linear-gradient(90deg, var(--rosado), var(--morado), var(--celeste), var(--verde));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .lead {
+    max-width: 720px;
+    margin: 0 auto 22px;
+    font-size: clamp(1.05rem, 3vw, 1.35rem);
+    font-weight: 800;
+  }
+
+  .mascot {
+    width: min(260px, 70vw);
+    min-height: 150px;
+    margin: 10px auto 18px;
+    display: grid;
+    place-items: center;
+    border-radius: 34px;
+    background: linear-gradient(135deg, #ffe5f0, #e0fbff);
+    border: 4px dashed rgba(255, 112, 166, 0.55);
+    font-size: clamp(4rem, 18vw, 8rem);
+  }
+
+  .start-actions,
+  .result-actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .big-btn,
+  .option-btn,
+  .section-btn {
+    min-height: 64px;
+    border-radius: 22px;
+    padding: 16px 22px;
+    font-size: 1.1rem;
+    font-weight: 900;
+    color: var(--morado-oscuro);
+    background: var(--amarillo);
+    box-shadow: 0 8px 0 #d99400, 0 14px 22px var(--sombra);
+    transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+  }
+
+  .big-btn:hover,
+  .option-btn:hover,
+  .section-btn:hover { filter: brightness(1.04); }
+
+  .big-btn:active,
+  .option-btn:active,
+  .section-btn:active {
+    transform: translateY(5px);
+    box-shadow: 0 3px 0 #d99400, 0 8px 12px var(--sombra);
+  }
+
+  .secondary-btn {
+    background: #dff7ff;
+    box-shadow: 0 8px 0 #68c5df, 0 14px 22px var(--sombra);
+  }
+
+  .sections-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 14px;
+    margin-top: 22px;
+  }
+
+  .section-btn {
+    width: 100%;
+    min-height: 118px;
+    background: var(--blanco);
+    box-shadow: 0 8px 0 #d8cff8, 0 14px 22px var(--sombra);
+    border: 3px solid rgba(139, 92, 246, 0.22);
+    text-align: left;
+  }
+
+  .section-emoji {
+    display: block;
+    font-size: 2rem;
+    margin-bottom: 6px;
+  }
+
+  .section-name { display: block; }
+
+  .game-head {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 18px;
+  }
+
+  .section-chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: 42px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: #efe7ff;
+    color: var(--morado-oscuro);
+    font-weight: 900;
+  }
+
+  .score-card {
+    padding: 10px 14px;
+    border-radius: 18px;
+    background: #fff6d6;
+    font-weight: 900;
+    text-align: center;
+  }
+
+  .progress-wrap {
+    grid-column: 1 / -1;
+    height: 22px;
+    border-radius: 999px;
+    background: #eadffd;
+    overflow: hidden;
+    border: 3px solid #fff;
+  }
+
+  .progress-bar {
+    height: 100%;
+    width: 0%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--rosado), var(--amarillo), var(--verde));
+    transition: width 0.25s ease;
+  }
+
+  .question-card {
+    border-radius: 28px;
+    background: var(--blanco);
+    padding: clamp(16px, 4vw, 28px);
+    border: 4px solid rgba(76, 201, 240, 0.34);
+  }
+
+  .question-title {
+    font-size: clamp(1.35rem, 4vw, 2rem);
+    line-height: 1.15;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  .visual {
+    min-height: 118px;
+    display: grid;
+    place-items: center;
+    margin: 12px 0 18px;
+    border-radius: 24px;
+    background: linear-gradient(135deg, #fff9db, #ecfbff);
+    border: 3px dashed rgba(255, 159, 28, 0.42);
+    padding: 14px;
+    text-align: center;
+  }
+
+  .options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .option-btn {
+    width: 100%;
+    min-height: 78px;
+    background: #f3e8ff;
+    box-shadow: 0 8px 0 #c4a7f6, 0 14px 22px var(--sombra);
+    font-size: clamp(1.1rem, 3.5vw, 1.55rem);
+  }
+
+  .option-btn.correct {
+    background: #b8f7c9;
+    box-shadow: 0 8px 0 #55b96d, 0 14px 22px var(--sombra);
+  }
+
+  .option-btn.wrong {
+    background: #ffd0dc;
+    box-shadow: 0 8px 0 #e45b7a, 0 14px 22px var(--sombra);
+  }
+
+  .option-btn:disabled { cursor: default; }
+
+  .feedback {
+    min-height: 56px;
+    margin-top: 16px;
+    font-size: 1.3rem;
+    font-weight: 900;
+    text-align: center;
+  }
+
+  .next-row { text-align: center; }
+
+  .next-btn { display: none; margin-top: 4px; }
+  .next-btn.show { display: inline-block; }
+
+  .number-line {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    justify-content: center;
+  }
+
+  .num-bubble,
+  .blank-bubble {
+    min-width: 52px;
+    min-height: 52px;
+    display: grid;
+    place-items: center;
+    padding: 8px;
+    border-radius: 16px;
+    font-size: 1.6rem;
+    font-weight: 900;
+    background: #fff;
+    border: 3px solid #9bdff3;
+  }
+
+  .blank-bubble {
+    color: var(--rosado);
+    border-style: dashed;
+    background: #fff2f7;
+  }
+
+  .emoji-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: end;
+    gap: 10px;
+    font-size: 2.2rem;
+  }
+
+  .emoji-item {
+    display: grid;
+    gap: 4px;
+    justify-items: center;
+    padding: 8px;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.72);
+  }
+
+  .emoji-item.marked {
+    outline: 5px solid var(--rosado);
+    background: #fff0f7;
+    transform: scale(1.08);
+  }
+
+  .tiny-label {
+    font-size: 0.75rem;
+    font-weight: 900;
+    color: var(--morado);
+  }
+
+  .objects {
+    max-width: 620px;
+    font-size: clamp(1.8rem, 6vw, 3rem);
+    line-height: 1.35;
+    word-break: break-word;
+  }
+
+  .split-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    font-size: clamp(1.3rem, 4vw, 2rem);
+    font-weight: 900;
+  }
+
+  .group {
+    min-width: 120px;
+    padding: 12px;
+    border-radius: 20px;
+    background: #fff;
+    border: 3px solid #ffd166;
+  }
+
+  .scene {
+    position: relative;
+    width: min(420px, 86vw);
+    height: 250px;
+    border-radius: 28px;
+    background: linear-gradient(#dff8ff 0 58%, #bdf4c6 58% 100%);
+    overflow: hidden;
+    border: 4px solid #fff;
+  }
+
+  .scene .base,
+  .scene .target {
+    position: absolute;
+    display: grid;
+    place-items: center;
+    font-size: 3.3rem;
+  }
+
+  .scene .base { left: 50%; top: 52%; transform: translate(-50%, -50%); }
+  .scene .target.right { left: 72%; top: 52%; transform: translate(-50%, -50%); }
+  .scene .target.left { left: 28%; top: 52%; transform: translate(-50%, -50%); }
+  .scene .target.up { left: 50%; top: 22%; transform: translate(-50%, -50%); }
+  .scene .target.down { left: 50%; top: 82%; transform: translate(-50%, -50%); }
+  .scene .target.front { left: 50%; top: 68%; transform: translate(-50%, -50%) scale(1.22); z-index: 2; }
+  .scene .target.back { left: 50%; top: 37%; transform: translate(-50%, -50%) scale(0.82); z-index: 0; opacity: 0.92; }
+
+  .shape-2d {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    background: var(--celeste);
+    border: 6px solid var(--morado);
+  }
+
+  .circle { border-radius: 50%; }
+  .square { border-radius: 14px; }
+  .rectangle { width: 150px; border-radius: 14px; }
+  .triangle {
+    width: 0;
+    height: 0;
+    background: transparent;
+    border-left: 58px solid transparent;
+    border-right: 58px solid transparent;
+    border-bottom: 105px solid var(--celeste);
+    border-top: 0;
+  }
+
+  .shape-3d {
+    font-size: 6rem;
+    filter: drop-shadow(0 10px 0 rgba(76, 29, 149, 0.12));
+  }
+
+  .result-box {
+    text-align: center;
+  }
+
+  .result-score {
+    font-size: clamp(3rem, 12vw, 6rem);
+    font-weight: 900;
+    color: var(--morado-oscuro);
+    margin: 8px 0;
+  }
+
+  .stars-earned {
+    font-size: clamp(2rem, 8vw, 4rem);
+    margin-bottom: 12px;
+  }
+
+  .section-results {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 10px;
+    margin: 20px 0;
+    text-align: left;
+  }
+
+  .result-mini {
+    padding: 12px;
+    border-radius: 16px;
+    background: #f7f0ff;
+    font-weight: 900;
+  }
+
+  @media (max-width: 680px) {
+    .game-head { grid-template-columns: 1fr; }
+    .options { grid-template-columns: 1fr; }
+    .top-bar { align-items: stretch; }
+    .home-link,
+    .sound-btn { flex: 1; text-align: center; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top-bar">
+    <a class="home-link" href="../index.html">⬅️ Inicio</a>
+    <button id="soundBtn" class="sound-btn" type="button" aria-pressed="true">🔊 Sonido</button>
+  </div>
+
+  <section id="startScreen" class="screen active hero" aria-labelledby="mainTitle">
+    <span class="badge">1° básico · Matemáticas</span>
+    <h1 id="mainTitle"><span class="rainbow-title">Prueba fundacional</span><br>de matemáticas 1</h1>
+    <div class="mascot" aria-hidden="true">🦄</div>
+    <p class="lead">Juega, elige respuestas y junta estrellas. Son preguntas cortitas y entretenidas.</p>
+    <div class="start-actions">
+      <button id="playAllBtn" class="big-btn" type="button">🌟 Jugar todo</button>
+      <button id="chooseBtn" class="big-btn secondary-btn" type="button">🧭 Elegir tema</button>
+    </div>
+    <div id="sectionPicker" class="sections-grid" hidden></div>
+  </section>
+
+  <section id="gameScreen" class="screen" aria-live="polite">
+    <div class="game-head">
+      <div>
+        <span id="sectionChip" class="section-chip">🔢 Tema</span>
+        <h2 id="questionCounter">Pregunta 1</h2>
+      </div>
+      <div class="score-card">⭐ <span id="scoreText">0</span> puntos</div>
+      <div class="progress-wrap" aria-label="Progreso">
+        <div id="progressBar" class="progress-bar"></div>
+      </div>
+    </div>
+
+    <article class="question-card">
+      <h3 id="questionTitle" class="question-title"></h3>
+      <div id="visual" class="visual"></div>
+      <div id="options" class="options"></div>
+      <div id="feedback" class="feedback"></div>
+      <div class="next-row">
+        <button id="nextBtn" class="big-btn next-btn" type="button">Siguiente ➡️</button>
+      </div>
+    </article>
+  </section>
+
+  <section id="resultScreen" class="screen result-box" aria-labelledby="resultTitle">
+    <span class="badge">¡Juego terminado!</span>
+    <h2 id="resultTitle">Tu resultado</h2>
+    <div id="starsEarned" class="stars-earned">⭐⭐⭐</div>
+    <div id="finalScore" class="result-score">0/0</div>
+    <p id="resultMessage" class="lead"></p>
+    <div id="sectionResults" class="section-results"></div>
+    <div class="result-actions">
+      <button id="againBtn" class="big-btn" type="button">🔁 Jugar otra vez</button>
+      <button id="menuBtn" class="big-btn secondary-btn" type="button">🏠 Volver al inicio</button>
+    </div>
+  </section>
+</div>
+
+<script>
+/*
+  Prueba fundacional de matemáticas 1.
+  Todo el contenido se genera en el navegador para poder jugar sin internet.
+*/
+const QUESTIONS_PER_SECTION = 5;
+const rand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+const sample = (list) => list[Math.floor(Math.random() * list.length)];
+const shuffle = (list) => [...list].sort(() => Math.random() - 0.5);
+
+const numberWords = ["cero", "uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve", "diez"];
+const ordinalWords = ["primero", "segundo", "tercero", "cuarto", "quinto", "sexto", "séptimo", "octavo", "noveno", "décimo"];
+const ordinalShort = ["1°", "2°", "3°", "4°", "5°", "6°", "7°", "8°", "9°", "10°"];
+const cuteEmojis = ["🍎", "⭐", "🧁", "🐞", "🌸", "🍓", "🟣", "🦋", "🍪", "💎"];
+
+let soundOn = true;
+let audioCtx = null;
+let currentQuestions = [];
+let currentIndex = 0;
+let score = 0;
+let answered = false;
+let selectedMode = "all";
+let selectedSectionId = null;
+let sectionStats = {};
+
+const screens = {
+  start: document.getElementById("startScreen"),
+  game: document.getElementById("gameScreen"),
+  result: document.getElementById("resultScreen")
+};
+
+const sectionPicker = document.getElementById("sectionPicker");
+const playAllBtn = document.getElementById("playAllBtn");
+const chooseBtn = document.getElementById("chooseBtn");
+const soundBtn = document.getElementById("soundBtn");
+const sectionChip = document.getElementById("sectionChip");
+const questionCounter = document.getElementById("questionCounter");
+const scoreText = document.getElementById("scoreText");
+const progressBar = document.getElementById("progressBar");
+const questionTitle = document.getElementById("questionTitle");
+const visual = document.getElementById("visual");
+const optionsEl = document.getElementById("options");
+const feedback = document.getElementById("feedback");
+const nextBtn = document.getElementById("nextBtn");
+const finalScore = document.getElementById("finalScore");
+const resultMessage = document.getElementById("resultMessage");
+const starsEarned = document.getElementById("starsEarned");
+const sectionResults = document.getElementById("sectionResults");
+const againBtn = document.getElementById("againBtn");
+const menuBtn = document.getElementById("menuBtn");
+
+function showScreen(name) {
+  Object.values(screens).forEach(screen => screen.classList.remove("active"));
+  screens[name].classList.add("active");
+}
+
+function playTone(type) {
+  if (!soundOn) return;
+  audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+  const now = audioCtx.currentTime;
+  const notes = type === "ok" ? [523.25, 659.25, 783.99] : [220, 164.81];
+  notes.forEach((freq, i) => {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = type === "ok" ? "sine" : "triangle";
+    osc.frequency.setValueAtTime(freq, now + i * 0.09);
+    gain.gain.setValueAtTime(0.001, now + i * 0.09);
+    gain.gain.exponentialRampToValueAtTime(0.18, now + i * 0.09 + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.09 + 0.17);
+    osc.connect(gain).connect(audioCtx.destination);
+    osc.start(now + i * 0.09);
+    osc.stop(now + i * 0.09 + 0.18);
+  });
+}
+
+function optionSet(answer, candidates) {
+  const values = [String(answer)];
+  shuffle(candidates.map(String)).forEach(item => {
+    if (values.length < 4 && !values.includes(item)) values.push(item);
+  });
+  while (values.length < 4) {
+    const extra = String(rand(0, 20));
+    if (!values.includes(extra)) values.push(extra);
+  }
+  return shuffle(values);
+}
+
+function emojiObjects(count, emoji = sample(cuteEmojis)) {
+  if (count === 0) return "<div class='objects'>0 objetos</div>";
+  return `<div class="objects" aria-label="${count} objetos">${emoji.repeat(count)}</div>`;
+}
+
+function makeCountingQuestion() {
+  const step = sample([1, 2, 5, 10]);
+  const forward = Math.random() > 0.35;
+  const size = 5;
+  const maxStart = forward ? 100 - step * (size - 1) : 100;
+  const minStart = forward ? 0 : step * (size - 1);
+  let start = rand(minStart, maxStart);
+  if (step > 1) start = Math.round(start / step) * step;
+  start = Math.max(minStart, Math.min(maxStart, start));
+  const seq = Array.from({ length: size }, (_, i) => start + (forward ? step * i : -step * i));
+  const blank = rand(1, size - 2);
+  const answer = seq[blank];
+  const bubbles = seq.map((n, i) => `<span class="${i === blank ? "blank-bubble" : "num-bubble"}">${i === blank ? "?" : n}</span>`).join("");
+  const dirText = forward ? "hacia adelante" : "hacia atrás";
+  return {
+    sectionId: "counting",
+    prompt: `Cuenta de ${step} en ${step}, ${dirText}. ¿Qué número falta?`,
+    visual: `<div class="number-line">${bubbles}</div>`,
+    options: optionSet(answer, [answer - step, answer + step, answer - 1, answer + 1, answer + step * 2].filter(n => n >= 0 && n <= 100)),
+    answer: String(answer)
+  };
+}
+
+function makeOrdinalQuestion() {
+  const animals = shuffle(["🐶", "🐱", "🐰", "🦊", "🐼", "🐸", "🐵", "🐥", "🦁", "🐨"]);
+  const pos = rand(0, 9);
+  const askPosition = Math.random() > 0.45;
+  const row = animals.map((animal, i) => `<span class="emoji-item ${i === pos ? "marked" : ""}"><span>${animal}</span><span class="tiny-label">${i + 1}</span></span>`).join("");
+  if (askPosition) {
+    return {
+      sectionId: "ordinal",
+      prompt: `Mira la fila. ¿En qué lugar está el animal marcado?`,
+      visual: `<div class="emoji-row">${row}</div>`,
+      options: optionSet(ordinalWords[pos], ordinalWords),
+      answer: ordinalWords[pos]
+    };
+  }
+  const targetOrdinal = sample([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
+  return {
+    sectionId: "ordinal",
+    prompt: `¿Qué animal está en el lugar ${ordinalWords[targetOrdinal]}?`,
+    visual: `<div class="emoji-row">${animals.map((animal, i) => `<span class="emoji-item"><span>${animal}</span><span class="tiny-label">${ordinalShort[i]}</span></span>`).join("")}</div>`,
+    options: optionSet(animals[targetOrdinal], animals),
+    answer: animals[targetOrdinal]
+  };
+}
+
+function makeReadRepresentQuestion() {
+  const n = rand(0, 10);
+  const mode = sample(["wordToNumber", "objectsToNumber", "numberToWord"]);
+  const emoji = sample(cuteEmojis);
+  if (mode === "wordToNumber") {
+    return {
+      sectionId: "reading",
+      prompt: `¿Qué símbolo numérico dice “${numberWords[n]}”?`,
+      visual: `<div class="objects">${numberWords[n]}</div>`,
+      options: optionSet(n, [n - 2, n - 1, n + 1, n + 2].filter(x => x >= 0 && x <= 10)),
+      answer: String(n)
+    };
+  }
+  if (mode === "objectsToNumber") {
+    return {
+      sectionId: "reading",
+      prompt: "Cuenta los objetos. ¿Cuántos hay?",
+      visual: emojiObjects(n, emoji),
+      options: optionSet(n, [n - 2, n - 1, n + 1, n + 2].filter(x => x >= 0 && x <= 10)),
+      answer: String(n)
+    };
+  }
+  return {
+    sectionId: "reading",
+    prompt: `¿Cómo se lee el número ${n}?`,
+    visual: `<div class="num-bubble" style="font-size:3rem">${n}</div>`,
+    options: optionSet(numberWords[n], numberWords),
+    answer: numberWords[n]
+  };
+}
+
+function makeComposeQuestion() {
+  const total = rand(0, 10);
+  const left = rand(0, total);
+  const right = total - left;
+  const askMissing = Math.random() > 0.35;
+  const emoji = sample(cuteEmojis);
+  if (askMissing) {
+    return {
+      sectionId: "compose",
+      prompt: `Completa: ${total} = ${left} + ?`,
+      visual: `<div class="split-box"><div class="group">${emojiObjects(left, emoji)}</div><strong>+</strong><div class="group">?</div><strong>= ${total}</strong></div>`,
+      options: optionSet(right, [right - 2, right - 1, right + 1, right + 2].filter(x => x >= 0 && x <= 10)),
+      answer: String(right)
+    };
+  }
+  const answer = `${left} + ${right}`;
+  const options = [answer];
+  while (options.length < 4) {
+    const a = rand(0, 10);
+    const b = rand(0, 10);
+    const text = `${a} + ${b}`;
+    if (a + b !== total && !options.includes(text)) options.push(text);
+  }
+  return {
+    sectionId: "compose",
+    prompt: `¿Qué suma forma ${total}?`,
+    visual: emojiObjects(total, emoji),
+    options: shuffle(options),
+    answer
+  };
+}
+
+function makeCompareQuestion() {
+  const mode = sample(["compare", "asc", "desc"]);
+  if (mode === "compare") {
+    const a = rand(0, 10);
+    const b = rand(0, 10);
+    const answer = a > b ? "mayor que" : a < b ? "menor que" : "igual que";
+    return {
+      sectionId: "compare",
+      prompt: `Compara: ${a} es...`,
+      visual: `<div class="split-box"><span class="num-bubble">${a}</span><strong>?</strong><span class="num-bubble">${b}</span></div>`,
+      options: ["mayor que", "menor que", "igual que", "casi igual"],
+      answer
+    };
+  }
+  const nums = shuffle(shuffle(Array.from({ length: 11 }, (_, i) => i)).slice(0, 3));
+  const sorted = [...nums].sort((a, b) => mode === "asc" ? a - b : b - a);
+  const answer = sorted.join(" - ");
+  const wrong1 = shuffle(nums).join(" - ");
+  const wrong2 = [...sorted].reverse().join(" - ");
+  const wrong3 = shuffle([rand(0, 10), rand(0, 10), rand(0, 10)]).join(" - ");
+  return {
+    sectionId: "compare",
+    prompt: mode === "asc" ? "Ordena de menor a mayor." : "Ordena de mayor a menor.",
+    visual: `<div class="number-line">${nums.map(n => `<span class="num-bubble">${n}</span>`).join("")}</div>`,
+    options: optionSet(answer, [wrong1, wrong2, wrong3]),
+    answer
+  };
+}
+
+function makeAddSubtractQuestion() {
+  const addition = Math.random() > 0.45;
+  const emoji = sample(cuteEmojis);
+  if (addition) {
+    const a = rand(0, 10);
+    const b = rand(0, 10);
+    const answer = a + b;
+    return {
+      sectionId: "operations",
+      prompt: `¿Cuánto es ${a} + ${b}?`,
+      visual: `<div class="split-box"><div class="group">${emojiObjects(a, emoji)}</div><strong>+</strong><div class="group">${emojiObjects(b, emoji)}</div></div>`,
+      options: optionSet(answer, [answer - 2, answer - 1, answer + 1, answer + 2].filter(x => x >= 0 && x <= 20)),
+      answer: String(answer)
+    };
+  }
+  const a = rand(0, 20);
+  const b = rand(0, a);
+  const answer = a - b;
+  return {
+    sectionId: "operations",
+    prompt: `¿Cuánto es ${a} - ${b}?`,
+    visual: `<div class="split-box"><div class="group">${emojiObjects(Math.min(a, 12), emoji)}</div><strong>quito ${b}</strong></div>`,
+    options: optionSet(answer, [answer - 2, answer - 1, answer + 1, answer + 2].filter(x => x >= 0 && x <= 20)),
+    answer: String(answer)
+  };
+}
+
+function makePositionQuestion() {
+  const positions = [
+    { css: "right", word: "derecha" },
+    { css: "left", word: "izquierda" },
+    { css: "up", word: "arriba" },
+    { css: "down", word: "abajo" },
+    { css: "front", word: "delante" },
+    { css: "back", word: "detrás" }
+  ];
+  const pos = sample(positions);
+  const obj = sample(["⚽", "🎈", "🧸", "🍎", "🚗"]);
+  return {
+    sectionId: "position",
+    prompt: `¿Dónde está ${obj} respecto al gato?`,
+    visual: `<div class="scene" aria-label="Escena de posición"><span class="target ${pos.css}">${obj}</span><span class="base">🐱</span></div>`,
+    options: optionSet(pos.word, positions.map(p => p.word)),
+    answer: pos.word
+  };
+}
+
+function makeShapesQuestion() {
+  const shapes2d = [
+    { name: "círculo", html: "<span class='shape-2d circle'></span>", object: "reloj" },
+    { name: "cuadrado", html: "<span class='shape-2d square'></span>", object: "ventana" },
+    { name: "triángulo", html: "<span class='shape-2d triangle'></span>", object: "señal" },
+    { name: "rectángulo", html: "<span class='shape-2d rectangle'></span>", object: "puerta" }
+  ];
+  const shapes3d = [
+    { name: "cubo", html: "<span class='shape-3d'>🎲</span>" },
+    { name: "esfera", html: "<span class='shape-3d'>⚽</span>" },
+    { name: "cilindro", html: "<span class='shape-3d'>🥫</span>" },
+    { name: "cono", html: "<span class='shape-3d'>🍦</span>" }
+  ];
+  const mode = sample(["2d", "3d", "object"]);
+  if (mode === "3d") {
+    const shape = sample(shapes3d);
+    return {
+      sectionId: "shapes",
+      prompt: "¿Qué cuerpo 3D es?",
+      visual: shape.html,
+      options: optionSet(shape.name, shapes3d.map(s => s.name)),
+      answer: shape.name
+    };
+  }
+  const shape = sample(shapes2d);
+  if (mode === "object") {
+    return {
+      sectionId: "shapes",
+      prompt: `Un objeto como “${shape.object}” se parece a un...`,
+      visual: `${shape.html}<div class="tiny-label" style="font-size:1rem">${shape.object}</div>`,
+      options: optionSet(shape.name, shapes2d.map(s => s.name)),
+      answer: shape.name
+    };
+  }
+  return {
+    sectionId: "shapes",
+    prompt: "¿Qué figura 2D es?",
+    visual: shape.html,
+    options: optionSet(shape.name, shapes2d.map(s => s.name)),
+    answer: shape.name
+  };
+}
+
+const sections = [
+  { id: "counting", emoji: "🔢", name: "Contar 0 al 100", generator: makeCountingQuestion },
+  { id: "ordinal", emoji: "🏁", name: "Números ordinales", generator: makeOrdinalQuestion },
+  { id: "reading", emoji: "🍎", name: "Leer 0 al 10", generator: makeReadRepresentQuestion },
+  { id: "compose", emoji: "🧩", name: "Componer 0 al 10", generator: makeComposeQuestion },
+  { id: "compare", emoji: "⚖️", name: "Comparar y ordenar", generator: makeCompareQuestion },
+  { id: "operations", emoji: "➕", name: "Sumas y restas", generator: makeAddSubtractQuestion },
+  { id: "position", emoji: "🧭", name: "Posición", generator: makePositionQuestion },
+  { id: "shapes", emoji: "🔷", name: "Figuras 2D y 3D", generator: makeShapesQuestion }
+];
+
+function buildQuestions(sectionIds) {
+  return sectionIds.flatMap(id => {
+    const section = sections.find(item => item.id === id);
+    return Array.from({ length: QUESTIONS_PER_SECTION }, () => section.generator());
+  });
+}
+
+function startGame(mode, sectionId = null) {
+  selectedMode = mode;
+  selectedSectionId = sectionId;
+  const ids = mode === "all" ? sections.map(section => section.id) : [sectionId];
+  currentQuestions = buildQuestions(ids);
+  currentIndex = 0;
+  score = 0;
+  answered = false;
+  sectionStats = Object.fromEntries(ids.map(id => [id, { ok: 0, total: 0 }]));
+  showScreen("game");
+  renderQuestion();
+}
+
+function renderQuestion() {
+  answered = false;
+  const question = currentQuestions[currentIndex];
+  const section = sections.find(item => item.id === question.sectionId);
+  const progress = Math.round((currentIndex / currentQuestions.length) * 100);
+
+  sectionChip.textContent = `${section.emoji} ${section.name}`;
+  questionCounter.textContent = `Pregunta ${currentIndex + 1} de ${currentQuestions.length}`;
+  scoreText.textContent = score;
+  progressBar.style.width = `${progress}%`;
+  questionTitle.textContent = question.prompt;
+  visual.innerHTML = question.visual;
+  feedback.textContent = "";
+  nextBtn.classList.remove("show");
+  optionsEl.innerHTML = "";
+
+  question.options.forEach(option => {
+    const button = document.createElement("button");
+    button.className = "option-btn";
+    button.type = "button";
+    button.textContent = option;
+    button.addEventListener("click", () => checkAnswer(button, option));
+    optionsEl.appendChild(button);
+  });
+}
+
+function checkAnswer(button, option) {
+  if (answered) return;
+  answered = true;
+  const question = currentQuestions[currentIndex];
+  const isCorrect = String(option) === String(question.answer);
+  sectionStats[question.sectionId].total += 1;
+
+  [...optionsEl.children].forEach(btn => {
+    btn.disabled = true;
+    if (btn.textContent === String(question.answer)) btn.classList.add("correct");
+  });
+
+  if (isCorrect) {
+    score += 1;
+    sectionStats[question.sectionId].ok += 1;
+    feedback.textContent = "¡Muy bien! 🌟";
+    playTone("ok");
+  } else {
+    button.classList.add("wrong");
+    feedback.textContent = `Casi. Era: ${question.answer} 💜`;
+    playTone("bad");
+  }
+
+  scoreText.textContent = score;
+  nextBtn.textContent = currentIndex === currentQuestions.length - 1 ? "Ver resultado 🎉" : "Siguiente ➡️";
+  nextBtn.classList.add("show");
+  progressBar.style.width = `${Math.round(((currentIndex + 1) / currentQuestions.length) * 100)}%`;
+}
+
+function finishGame() {
+  showScreen("result");
+  const total = currentQuestions.length;
+  const percent = Math.round((score / total) * 100);
+  finalScore.textContent = `${score}/${total}`;
+  starsEarned.textContent = percent >= 85 ? "⭐⭐⭐" : percent >= 60 ? "⭐⭐" : "⭐";
+  resultMessage.textContent = percent >= 85
+    ? "¡Seca! Eres una campeona de matemáticas."
+    : percent >= 60
+      ? "¡Buen trabajo! Sigue practicando y subirás más."
+      : "¡Lo hiciste bien! Practicar ayuda mucho. Tú puedes.";
+
+  sectionResults.innerHTML = Object.entries(sectionStats).map(([id, stat]) => {
+    const section = sections.find(item => item.id === id);
+    return `<div class="result-mini">${section.emoji} ${section.name}<br>${stat.ok}/${stat.total} correctas</div>`;
+  }).join("");
+}
+
+function renderSectionPicker() {
+  sectionPicker.innerHTML = sections.map(section => `
+    <button class="section-btn" type="button" data-section="${section.id}">
+      <span class="section-emoji">${section.emoji}</span>
+      <span class="section-name">${section.name}</span>
+      <small>5 preguntas</small>
+    </button>
+  `).join("");
+  sectionPicker.addEventListener("click", event => {
+    const button = event.target.closest("button[data-section]");
+    if (button) startGame("section", button.dataset.section);
+  });
+}
+
+playAllBtn.addEventListener("click", () => startGame("all"));
+chooseBtn.addEventListener("click", () => {
+  sectionPicker.hidden = !sectionPicker.hidden;
+});
+soundBtn.addEventListener("click", () => {
+  soundOn = !soundOn;
+  soundBtn.textContent = soundOn ? "🔊 Sonido" : "🔇 Sin sonido";
+  soundBtn.setAttribute("aria-pressed", String(soundOn));
+});
+nextBtn.addEventListener("click", () => {
+  if (currentIndex < currentQuestions.length - 1) {
+    currentIndex += 1;
+    renderQuestion();
+  } else {
+    finishGame();
+  }
+});
+againBtn.addEventListener("click", () => startGame(selectedMode, selectedSectionId));
+menuBtn.addEventListener("click", () => showScreen("start"));
+
+renderSectionPicker();
+</script>
+</body>
+</html>
