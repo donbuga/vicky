@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🐱 Repaso matemáticas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@600;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pink: #ff7ab6;
+      --peach: #ffbd8a;
+      --yellow: #fff06a;
+      --mint: #75f4c8;
+      --sky: #73d7ff;
+      --blue: #7597ff;
+      --purple: #c789ff;
+      --white: #fffdf8;
+      --ink: #39245f;
+      --soft-ink: #6d5592;
+      --card: rgba(255, 255, 255, .86);
+      --shadow: rgba(65, 31, 105, .22);
+      --good: #30c67c;
+      --bad: #ff6680;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Nunito', system-ui, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 18%, rgba(255, 255, 255, .75) 0 9%, transparent 10%),
+        radial-gradient(circle at 86% 12%, rgba(255, 255, 255, .55) 0 8%, transparent 9%),
+        radial-gradient(circle at 78% 78%, rgba(255, 255, 255, .5) 0 12%, transparent 13%),
+        linear-gradient(135deg, #ffd0e7 0%, #ffe9a8 20%, #c8fadc 39%, #b9edff 58%, #d7c2ff 78%, #ffc7ef 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '🐾 ✨ 🌈 ⭐ 🐱 💖 🔺 🟦 ⚪';
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      font-size: clamp(1.4rem, 4vw, 3rem);
+      line-height: 2.5;
+      letter-spacing: 1.2rem;
+      opacity: .13;
+      animation: drift 24s linear infinite;
+      white-space: pre-wrap;
+    }
+
+    @keyframes drift {
+      from { transform: translateY(0); }
+      to { transform: translateY(-160px); }
+    }
+
+    .app {
+      position: relative;
+      z-index: 1;
+      width: min(960px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 18px 0 36px;
+    }
+
+    header {
+      display: grid;
+      gap: 12px;
+      align-items: center;
+      margin: 10px 0 18px;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: 'Baloo 2', cursive;
+      font-size: clamp(2.2rem, 8vw, 5rem);
+      line-height: .95;
+      color: #fff;
+      text-shadow: 0 5px 0 rgba(119, 61, 173, .26), 0 10px 26px rgba(52, 20, 82, .25);
+    }
+
+    .subtitle {
+      display: inline-block;
+      justify-self: center;
+      padding: 8px 18px;
+      border: 3px solid rgba(255,255,255,.8);
+      border-radius: 999px;
+      background: rgba(255,255,255,.55);
+      color: var(--soft-ink);
+      font-weight: 900;
+      box-shadow: 0 10px 24px var(--shadow);
+    }
+
+    .progress-card {
+      position: sticky;
+      top: 10px;
+      z-index: 4;
+      padding: 12px;
+      border: 3px solid rgba(255,255,255,.8);
+      border-radius: 24px;
+      background: rgba(255,255,255,.75);
+      box-shadow: 0 12px 28px var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+      font-family: 'Baloo 2', cursive;
+      font-size: clamp(1rem, 3vw, 1.25rem);
+      font-weight: 800;
+    }
+
+    .track {
+      height: 20px;
+      overflow: hidden;
+      border: 3px solid #fff;
+      border-radius: 999px;
+      background: rgba(109,85,146,.16);
+    }
+
+    .bar {
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--pink), var(--yellow), var(--mint), var(--sky), var(--purple));
+      transition: width .45s cubic-bezier(.2,.9,.3,1.2);
+    }
+
+    .game-card {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 24px;
+      margin-top: 18px;
+      padding: clamp(18px, 4vw, 30px);
+      border: 4px solid rgba(255,255,255,.85);
+      border-radius: 36px;
+      background: var(--card);
+      box-shadow: 0 22px 45px var(--shadow);
+    }
+
+    .cat-zone {
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      gap: 16px;
+      min-height: 330px;
+      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(255,255,255,.72), rgba(255,244,180,.45));
+      border: 3px dashed rgba(199, 137, 255, .55);
+      padding: 18px;
+    }
+
+    .cat {
+      position: relative;
+      width: 160px;
+      height: 160px;
+      animation: kitty-breathe 1.8s ease-in-out infinite;
+    }
+
+    @keyframes kitty-breathe {
+      0%, 100% { transform: translateY(0) rotate(-1deg); }
+      50% { transform: translateY(-8px) rotate(1deg); }
+    }
+
+    .cat .head {
+      position: absolute;
+      inset: 30px 18px 12px;
+      border: 5px solid #6e4b7d;
+      border-radius: 48% 48% 42% 42%;
+      background: #ffd2a6;
+      box-shadow: inset -12px -12px 0 rgba(235, 137, 123, .18);
+    }
+
+    .cat .ear {
+      position: absolute;
+      top: 20px;
+      width: 54px;
+      height: 54px;
+      border: 5px solid #6e4b7d;
+      background: #ffd2a6;
+      transform: rotate(45deg);
+      border-radius: 10px;
+    }
+
+    .cat .ear::after {
+      content: '';
+      position: absolute;
+      inset: 13px;
+      border-radius: 8px;
+      background: #ff9ab5;
+    }
+
+    .cat .ear.left { left: 20px; }
+    .cat .ear.right { right: 20px; }
+    .cat .eye {
+      position: absolute;
+      top: 74px;
+      width: 18px;
+      height: 24px;
+      border-radius: 50%;
+      background: #432d57;
+      box-shadow: 0 0 0 4px rgba(255,255,255,.45) inset;
+    }
+
+    .cat .eye.left { left: 55px; }
+    .cat .eye.right { right: 55px; }
+    .cat .nose {
+      position: absolute;
+      top: 103px;
+      left: 50%;
+      width: 18px;
+      height: 14px;
+      border-radius: 50% 50% 60% 60%;
+      background: #ff6f9e;
+      transform: translateX(-50%);
+    }
+
+    .cat .mouth {
+      position: absolute;
+      left: 50%;
+      top: 118px;
+      width: 42px;
+      height: 24px;
+      border-bottom: 5px solid #432d57;
+      border-radius: 0 0 50px 50px;
+      transform: translateX(-50%);
+    }
+
+    .cat .whisker {
+      position: absolute;
+      top: 108px;
+      width: 38px;
+      height: 4px;
+      border-radius: 999px;
+      background: #6e4b7d;
+    }
+
+    .cat .w1 { left: 8px; transform: rotate(10deg); }
+    .cat .w2 { left: 7px; top: 123px; transform: rotate(-10deg); }
+    .cat .w3 { right: 8px; transform: rotate(-10deg); }
+    .cat .w4 { right: 7px; top: 123px; transform: rotate(10deg); }
+
+    .cat.happy { animation: happy-hop .5s ease-in-out 2; }
+    .cat.happy .mouth { height: 32px; border-bottom-width: 6px; }
+    .cat.happy::after {
+      content: '🎉';
+      position: absolute;
+      right: -18px;
+      top: 0;
+      font-size: 2.2rem;
+      animation: pop .55s ease-out infinite alternate;
+    }
+
+    .cat.sad { animation: sad-shake .45s ease-in-out 2; }
+    .cat.sad .eye { height: 8px; top: 82px; box-shadow: none; }
+    .cat.sad .mouth { top: 124px; border-bottom: 0; border-top: 5px solid #432d57; border-radius: 50px 50px 0 0; }
+    .cat.sad::after {
+      content: '😿';
+      position: absolute;
+      right: -18px;
+      top: 6px;
+      font-size: 2rem;
+    }
+
+    @keyframes happy-hop {
+      0%,100% { transform: translateY(0) scale(1); }
+      45% { transform: translateY(-18px) scale(1.04); }
+    }
+
+    @keyframes sad-shake {
+      0%,100% { transform: translateX(0); }
+      25% { transform: translateX(-7px); }
+      75% { transform: translateX(7px); }
+    }
+
+    @keyframes pop { to { transform: scale(1.15) rotate(12deg); } }
+
+    .speech {
+      min-height: 92px;
+      width: 100%;
+      padding: 14px;
+      border-radius: 22px;
+      background: #fff;
+      border: 3px solid rgba(117, 151, 255, .4);
+      text-align: center;
+      font-family: 'Baloo 2', cursive;
+      font-size: 1.14rem;
+      font-weight: 800;
+      display: grid;
+      place-items: center;
+    }
+
+    .question-panel {
+      display: grid;
+      gap: 16px;
+    }
+
+    .topic {
+      width: fit-content;
+      padding: 7px 14px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #fff1a8, #ffe0f1);
+      color: var(--soft-ink);
+      font-weight: 900;
+      border: 2px solid rgba(255,255,255,.95);
+    }
+
+    .question {
+      margin: 0;
+      font-family: 'Baloo 2', cursive;
+      font-size: clamp(1.55rem, 4.7vw, 2.45rem);
+      line-height: 1.05;
+    }
+
+    .visual {
+      min-height: 185px;
+      display: grid;
+      place-items: center;
+      border-radius: 26px;
+      background: linear-gradient(135deg, rgba(255,255,255,.9), rgba(222,247,255,.72));
+      border: 3px solid rgba(255,255,255,.9);
+      overflow: hidden;
+    }
+
+    svg { max-width: 100%; height: auto; }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .option {
+      border: 0;
+      border-radius: 22px;
+      padding: 16px 12px;
+      min-height: 78px;
+      color: white;
+      font-family: 'Baloo 2', cursive;
+      font-size: clamp(1.05rem, 4vw, 1.35rem);
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 8px 0 rgba(63, 35, 94, .22), 0 16px 25px rgba(63, 35, 94, .15);
+      transition: transform .16s ease, filter .16s ease, box-shadow .16s ease;
+    }
+
+    .option:nth-child(1) { background: linear-gradient(135deg, #ff7ab6, #ff9f7a); }
+    .option:nth-child(2) { background: linear-gradient(135deg, #6ed6ff, #7597ff); }
+    .option:nth-child(3) { background: linear-gradient(135deg, #58d68d, #2bc7b4); }
+
+    .option:hover:not(:disabled), .option:focus-visible:not(:disabled) {
+      transform: translateY(-4px) scale(1.02);
+      filter: saturate(1.12);
+      box-shadow: 0 12px 0 rgba(63, 35, 94, .20), 0 20px 28px rgba(63, 35, 94, .18);
+      outline: 4px solid rgba(255,255,255,.9);
+    }
+
+    .option:disabled { cursor: default; opacity: .72; }
+    .option.correct { outline: 6px solid #ccffe5; filter: brightness(1.08); }
+    .option.incorrect { outline: 6px solid #ffd2db; filter: grayscale(.1) brightness(.96); }
+
+    .next-btn, .restart-btn {
+      justify-self: end;
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 24px;
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      color: white;
+      font-family: 'Baloo 2', cursive;
+      font-size: 1.22rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 8px 0 rgba(95, 43, 136, .26);
+      transition: transform .16s ease;
+    }
+
+    .next-btn:hover, .restart-btn:hover { transform: translateY(-3px); }
+    .hidden { display: none !important; }
+
+    .result-card {
+      position: relative;
+      overflow: hidden;
+      margin-top: 18px;
+      padding: clamp(22px, 5vw, 46px);
+      border: 4px solid rgba(255,255,255,.88);
+      border-radius: 36px;
+      background: rgba(255,255,255,.88);
+      text-align: center;
+      box-shadow: 0 22px 45px var(--shadow);
+    }
+
+    .result-card h2 {
+      margin: 0 0 8px;
+      font-family: 'Baloo 2', cursive;
+      font-size: clamp(2rem, 8vw, 4rem);
+      color: #8b46e8;
+    }
+
+    .stars-result {
+      margin: 12px 0;
+      font-size: clamp(2.4rem, 10vw, 4.8rem);
+      letter-spacing: .12em;
+      filter: drop-shadow(0 7px 0 rgba(155, 92, 25, .15));
+    }
+
+    .result-message {
+      max-width: 660px;
+      margin: 10px auto 24px;
+      font-size: clamp(1.1rem, 4vw, 1.45rem);
+      font-weight: 900;
+      color: var(--soft-ink);
+    }
+
+    .confetti {
+      position: absolute;
+      top: -30px;
+      width: 14px;
+      height: 22px;
+      border-radius: 4px;
+      animation: fall var(--fall, 3s) linear infinite;
+      opacity: .9;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(-40px) rotate(0); }
+      100% { transform: translateY(620px) rotate(720deg); }
+    }
+
+    @media (max-width: 760px) {
+      .game-card { grid-template-columns: 1fr; }
+      .cat-zone { min-height: auto; }
+      .cat { width: 128px; height: 128px; transform: scale(.84); }
+      .options { grid-template-columns: 1fr; }
+      .next-btn { width: 100%; }
+      .visual { min-height: 150px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header>
+      <h1>🐱 Repaso matemáticas</h1>
+      <div class="subtitle">Figuras 2D, cuerpos 3D y posición espacial 🌈</div>
+    </header>
+
+    <section class="progress-card" aria-label="Progreso del juego">
+      <div class="progress-label">
+        <span id="questionCount">Pregunta 1 de 8</span>
+        <span id="scoreLabel">⭐ 0 correctas</span>
+      </div>
+      <div class="track" aria-hidden="true"><div id="progressBar" class="bar"></div></div>
+    </section>
+
+    <section id="gameCard" class="game-card">
+      <aside class="cat-zone" aria-label="Gatito ayudante">
+        <div id="cat" class="cat" role="img" aria-label="Gatito animado">
+          <div class="ear left"></div>
+          <div class="ear right"></div>
+          <div class="head"></div>
+          <div class="eye left"></div>
+          <div class="eye right"></div>
+          <div class="nose"></div>
+          <div class="mouth"></div>
+          <div class="whisker w1"></div>
+          <div class="whisker w2"></div>
+          <div class="whisker w3"></div>
+          <div class="whisker w4"></div>
+        </div>
+        <div id="speech" class="speech">¡Miau! Lee con calma y elige la respuesta 🐾</div>
+      </aside>
+
+      <section class="question-panel" aria-live="polite">
+        <div id="topic" class="topic">🔺 Figuras 2D</div>
+        <h2 id="question" class="question">Pregunta</h2>
+        <div id="visual" class="visual"></div>
+        <div id="options" class="options"></div>
+        <button id="nextBtn" class="next-btn hidden" type="button">Siguiente pregunta ➡️</button>
+      </section>
+    </section>
+
+    <section id="resultCard" class="result-card hidden" aria-live="polite">
+      <h2>¡Juego terminado! 🎉</h2>
+      <div id="starsResult" class="stars-result">⭐⭐⭐</div>
+      <p id="resultMessage" class="result-message"></p>
+      <button id="restartBtn" class="restart-btn" type="button">Jugar otra vez 🐱</button>
+    </section>
+  </main>
+
+  <script>
+    const questions = [
+      {
+        topic: '🔺 Figuras 2D',
+        text: '¿Cuál figura está formada solo por líneas rectas? 🧐',
+        visual: shapes2D('Triángulo', 'Círculo'),
+        options: ['🔺 Triángulo', '⚪ Círculo'],
+        answer: 0,
+        explanation: 'El triángulo tiene 3 lados rectos. El círculo es una línea curva. ✨'
+      },
+      {
+        topic: '📐 Figuras 2D',
+        text: 'Mira las figuras: ¿cuál NO tiene curvas y usa solo líneas rectas? 🐾',
+        visual: shapes2D('Círculo', 'Triángulo'),
+        options: ['⚪ Círculo', '🔺 Triángulo'],
+        answer: 1,
+        explanation: 'El triángulo se dibuja con líneas rectas; el círculo es redondito. 🌈'
+      },
+      {
+        topic: '🧊 Figuras 3D',
+        text: '¿Qué cuerpo geométrico tiene caras planas cuadradas? 🟦',
+        visual: solids3D(),
+        options: ['🧊 Cubo', '🏀 Esfera', '🔺 Pirámide'],
+        answer: 0,
+        explanation: 'El cubo tiene 6 caras planas con forma de cuadrado. ¡Muy bien observado! 🟦'
+      },
+      {
+        topic: '🧊 Figuras 3D',
+        text: 'Si buscas muchas caras cuadradas, ¿cuál elegirías? 😺',
+        visual: solids3D('sphereFirst'),
+        options: ['🏀 Esfera', '🧊 Cubo', '🔺 Pirámide'],
+        answer: 1,
+        explanation: 'La esfera no tiene caras planas y la pirámide tiene caras triangulares; el cubo tiene caras cuadradas. ⭐'
+      },
+      {
+        topic: '⚪ Cuerpos geométricos 3D',
+        text: '¿Cuál tiene forma redonda y no tiene esquinas? 🐱',
+        visual: roundSolid(),
+        options: ['🏀 Esfera', '🧊 Cubo', '🔺 Pirámide'],
+        answer: 0,
+        explanation: 'La esfera es redonda por todos lados y no tiene puntas ni esquinas. 🎈'
+      },
+      {
+        topic: '⚪ Cuerpos geométricos 3D',
+        text: 'El gatito quiere una figura que ruede suave. ¿Cuál es? 🐈',
+        visual: rollingSolid(),
+        options: ['🔺 Pirámide', '🏀 Esfera', '🧊 Cubo'],
+        answer: 1,
+        explanation: 'La esfera puede rodar porque es redonda y no tiene esquinas. 🌀'
+      },
+      {
+        topic: '🧭 Posición espacial',
+        text: '¿Qué objeto está a la derecha del gatito? ➡️',
+        visual: positionScene('right'),
+        options: ['🌳 Árbol', '🎁 Regalo', '🐟 Pez'],
+        answer: 1,
+        explanation: 'El regalo está al lado derecho del gatito. La derecha apunta hacia ➡️. 🎁'
+      },
+      {
+        topic: '🧭 Posición espacial',
+        text: 'Mira la escena: ¿qué está detrás del gatito? 👀',
+        visual: positionScene('behind'),
+        options: ['☀️ Sol', '🚗 Auto', '🌳 Árbol'],
+        answer: 2,
+        explanation: 'El árbol aparece detrás del gatito, como si estuviera más atrás en el dibujo. 🌳'
+      }
+    ];
+
+    const encouragements = [
+      '¡Miau-ravilloso! 🎉 Eres una genia matemática 🐱',
+      '¡Excelente! Tu gatito salta de alegría ⭐🐾',
+      '¡Correcto! Sigue así, exploradora de figuras 🌈',
+      '¡Bravo! Respuesta perfecta con bigotes felices 😺'
+    ];
+
+    let index = 0;
+    let score = 0;
+    let answered = false;
+    let audioContext;
+
+    const questionCount = document.getElementById('questionCount');
+    const scoreLabel = document.getElementById('scoreLabel');
+    const progressBar = document.getElementById('progressBar');
+    const topic = document.getElementById('topic');
+    const question = document.getElementById('question');
+    const visual = document.getElementById('visual');
+    const options = document.getElementById('options');
+    const speech = document.getElementById('speech');
+    const cat = document.getElementById('cat');
+    const nextBtn = document.getElementById('nextBtn');
+    const gameCard = document.getElementById('gameCard');
+    const resultCard = document.getElementById('resultCard');
+    const starsResult = document.getElementById('starsResult');
+    const resultMessage = document.getElementById('resultMessage');
+    const restartBtn = document.getElementById('restartBtn');
+
+    function shapes2D(leftLabel, rightLabel) {
+      const leftShape = leftLabel === 'Triángulo'
+        ? '<polygon points="135,28 62,150 208,150" fill="#ffcf56" stroke="#7b4be8" stroke-width="8" stroke-linejoin="round" />'
+        : '<circle cx="135" cy="92" r="66" fill="#78dfff" stroke="#7b4be8" stroke-width="8" />';
+      const rightShape = rightLabel === 'Triángulo'
+        ? '<polygon points="425,28 352,150 498,150" fill="#ffcf56" stroke="#7b4be8" stroke-width="8" stroke-linejoin="round" />'
+        : '<circle cx="425" cy="92" r="66" fill="#78dfff" stroke="#7b4be8" stroke-width="8" />';
+      return `<svg viewBox="0 0 560 205" role="img" aria-label="${leftLabel} y ${rightLabel}">
+        ${leftShape}${rightShape}
+        <text x="135" y="190" text-anchor="middle" font-size="26" font-family="Nunito" font-weight="900" fill="#39245f">${leftLabel}</text>
+        <text x="425" y="190" text-anchor="middle" font-size="26" font-family="Nunito" font-weight="900" fill="#39245f">${rightLabel}</text>
+      </svg>`;
+    }
+
+    function solids3D(order) {
+      const cube = '<g transform="translate(52 26)"><polygon points="38,0 128,0 168,38 78,38" fill="#93e6ff" stroke="#50316c" stroke-width="6"/><polygon points="78,38 168,38 168,128 78,128" fill="#4fbdf1" stroke="#50316c" stroke-width="6"/><polygon points="38,0 78,38 78,128 38,90" fill="#7dd8ff" stroke="#50316c" stroke-width="6"/><text x="102" y="166" text-anchor="middle" font-size="23" font-weight="900" fill="#39245f">Cubo</text></g>';
+      const sphere = '<g transform="translate(222 22)"><circle cx="82" cy="74" r="62" fill="#ff9ac1" stroke="#50316c" stroke-width="6"/><ellipse cx="63" cy="50" rx="24" ry="15" fill="#ffd3e4" opacity=".8"/><text x="82" y="170" text-anchor="middle" font-size="23" font-weight="900" fill="#39245f">Esfera</text></g>';
+      const pyramid = '<g transform="translate(384 24)"><polygon points="84,0 8,128 160,128" fill="#ffc15a" stroke="#50316c" stroke-width="6" stroke-linejoin="round"/><polygon points="84,0 160,128 95,128" fill="#ff9f47" opacity=".75"/><line x1="84" y1="0" x2="95" y2="128" stroke="#50316c" stroke-width="5"/><text x="84" y="170" text-anchor="middle" font-size="23" font-weight="900" fill="#39245f">Pirámide</text></g>';
+      return `<svg viewBox="0 0 560 210" role="img" aria-label="Cubo esfera y pirámide">${order === 'sphereFirst' ? sphere + cube + pyramid : cube + sphere + pyramid}</svg>`;
+    }
+
+    function roundSolid() {
+      return `<svg viewBox="0 0 560 210" role="img" aria-label="Comparación de esfera cubo y pirámide">
+        <g transform="translate(60 20)"><circle cx="75" cy="78" r="68" fill="#ffae42" stroke="#56366e" stroke-width="7"/><path d="M30 38 C63 4, 134 25, 143 82" fill="none" stroke="#ffe0a8" stroke-width="12" stroke-linecap="round" opacity=".85"/><text x="75" y="180" text-anchor="middle" font-size="24" font-weight="900" fill="#39245f">Redonda</text></g>
+        <g transform="translate(255 42)"><rect x="0" y="0" width="110" height="110" rx="6" fill="#80deea" stroke="#56366e" stroke-width="7"/><text x="55" y="158" text-anchor="middle" font-size="24" font-weight="900" fill="#39245f">Esquinas</text></g>
+        <g transform="translate(410 28)"><polygon points="70,0 0,122 140,122" fill="#c7a2ff" stroke="#56366e" stroke-width="7"/><text x="70" y="172" text-anchor="middle" font-size="24" font-weight="900" fill="#39245f">Puntas</text></g>
+      </svg>`;
+    }
+
+    function rollingSolid() {
+      return `<svg viewBox="0 0 560 210" role="img" aria-label="Una esfera rodando hacia un gatito">
+        <path d="M35 158 C135 128, 247 183, 355 145 C435 117, 485 134, 525 118" fill="none" stroke="#70d6ff" stroke-width="12" stroke-linecap="round" stroke-dasharray="18 14"/>
+        <circle cx="150" cy="100" r="58" fill="#ff8fab" stroke="#56366e" stroke-width="7"/>
+        <path d="M108 74 C130 42, 180 52, 198 92" fill="none" stroke="#ffd6e4" stroke-width="10" stroke-linecap="round"/>
+        <text x="150" y="185" text-anchor="middle" font-size="25" font-weight="900" fill="#39245f">Rueda suave</text>
+        <text x="420" y="120" text-anchor="middle" font-size="74">🐱</text>
+      </svg>`;
+    }
+
+    function positionScene(type) {
+      if (type === 'right') {
+        return `<svg viewBox="0 0 560 230" role="img" aria-label="Árbol a la izquierda, gatito al centro y regalo a la derecha">
+          <rect x="0" y="165" width="560" height="65" fill="#b8f7ca"/>
+          <text x="95" y="135" text-anchor="middle" font-size="82">🌳</text>
+          <text x="280" y="138" text-anchor="middle" font-size="88">🐱</text>
+          <text x="455" y="138" text-anchor="middle" font-size="82">🎁</text>
+          <path d="M325 178 H480" stroke="#ff66a0" stroke-width="8" stroke-linecap="round" marker-end="url(#arrow)"/>
+          <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#ff66a0"/></marker></defs>
+          <text x="280" y="215" text-anchor="middle" font-size="24" font-weight="900" fill="#39245f">Derecha ➡️</text>
+        </svg>`;
+      }
+      return `<svg viewBox="0 0 560 230" role="img" aria-label="Árbol detrás del gatito">
+        <rect x="0" y="165" width="560" height="65" fill="#b8f7ca"/>
+        <text x="280" y="90" text-anchor="middle" font-size="92" opacity=".9">🌳</text>
+        <text x="102" y="65" text-anchor="middle" font-size="58">☀️</text>
+        <text x="438" y="162" text-anchor="middle" font-size="64">🚗</text>
+        <text x="280" y="155" text-anchor="middle" font-size="96">🐱</text>
+        <text x="280" y="212" text-anchor="middle" font-size="24" font-weight="900" fill="#39245f">El árbol está detrás 👀</text>
+      </svg>`;
+    }
+
+    function renderQuestion() {
+      const current = questions[index];
+      answered = false;
+      cat.className = 'cat';
+      topic.textContent = current.topic;
+      question.textContent = current.text;
+      visual.innerHTML = current.visual;
+      options.innerHTML = '';
+      speech.textContent = '¡Miau! Lee con calma y elige la respuesta 🐾';
+      nextBtn.classList.add('hidden');
+      questionCount.textContent = `Pregunta ${index + 1} de ${questions.length}`;
+      scoreLabel.textContent = `⭐ ${score} correctas`;
+      progressBar.style.width = `${(index / questions.length) * 100}%`;
+
+      current.options.forEach((label, optionIndex) => {
+        const button = document.createElement('button');
+        button.className = 'option';
+        button.type = 'button';
+        button.textContent = label;
+        button.addEventListener('click', () => selectAnswer(optionIndex));
+        options.appendChild(button);
+      });
+    }
+
+    function selectAnswer(optionIndex) {
+      if (answered) return;
+      answered = true;
+      const current = questions[index];
+      const buttons = [...options.querySelectorAll('button')];
+      buttons.forEach((button) => button.disabled = true);
+      buttons[current.answer].classList.add('correct');
+
+      if (optionIndex === current.answer) {
+        score += 1;
+        cat.className = 'cat happy';
+        speech.textContent = encouragements[Math.floor(Math.random() * encouragements.length)];
+        playCorrectSound();
+      } else {
+        buttons[optionIndex].classList.add('incorrect');
+        cat.className = 'cat sad';
+        speech.textContent = `Casi, casi 😿 ${current.explanation}`;
+        playWrongSound();
+      }
+
+      scoreLabel.textContent = `⭐ ${score} correctas`;
+      progressBar.style.width = `${((index + 1) / questions.length) * 100}%`;
+      nextBtn.textContent = index === questions.length - 1 ? 'Ver resultado 🏁' : 'Siguiente pregunta ➡️';
+      nextBtn.classList.remove('hidden');
+      nextBtn.focus();
+    }
+
+    function getAudioContext() {
+      if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      return audioContext;
+    }
+
+    function playTone(frequency, start, duration, type = 'sine', gainValue = .12) {
+      const ctx = getAudioContext();
+      const oscillator = ctx.createOscillator();
+      const gain = ctx.createGain();
+      oscillator.type = type;
+      oscillator.frequency.setValueAtTime(frequency, ctx.currentTime + start);
+      gain.gain.setValueAtTime(0.0001, ctx.currentTime + start);
+      gain.gain.exponentialRampToValueAtTime(gainValue, ctx.currentTime + start + .02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + start + duration);
+      oscillator.connect(gain);
+      gain.connect(ctx.destination);
+      oscillator.start(ctx.currentTime + start);
+      oscillator.stop(ctx.currentTime + start + duration + .03);
+    }
+
+    function playCorrectSound() {
+      playTone(523.25, 0, .16, 'triangle', .13);
+      playTone(659.25, .14, .16, 'triangle', .13);
+      playTone(783.99, .28, .22, 'triangle', .14);
+      playTone(1046.5, .42, .10, 'sine', .07);
+    }
+
+    function playWrongSound() {
+      playTone(220, 0, .28, 'sine', .08);
+      playTone(174.61, .18, .32, 'sine', .06);
+    }
+
+    function playFinalSound() {
+      [523.25, 659.25, 783.99, 1046.5, 987.77, 1046.5].forEach((note, i) => {
+        playTone(note, i * .11, .16, 'triangle', .12);
+      });
+    }
+
+    function finishGame() {
+      gameCard.classList.add('hidden');
+      resultCard.classList.remove('hidden');
+      progressBar.style.width = '100%';
+      questionCount.textContent = 'Repaso completado 🏁';
+      scoreLabel.textContent = `⭐ ${score} de ${questions.length}`;
+      const starCount = score >= 7 ? 5 : score >= 5 ? 4 : score >= 3 ? 3 : score >= 1 ? 2 : 1;
+      starsResult.textContent = '⭐'.repeat(starCount);
+      resultMessage.textContent = score >= 7
+        ? `¡Fantástico! Lograste ${score} de ${questions.length}. El gatito está orgullosísimo de ti 😻🎉`
+        : score >= 5
+          ? `¡Muy buen repaso! Lograste ${score} de ${questions.length}. Sigue practicando y brillarás más ⭐🐱`
+          : `Terminaste con ${score} de ${questions.length}. ¡Practicar es aprender! El gatito te acompaña otra vez 🐾💖`;
+      createConfetti();
+      playFinalSound();
+    }
+
+    function createConfetti() {
+      resultCard.querySelectorAll('.confetti').forEach((piece) => piece.remove());
+      const colors = ['#ff7ab6', '#fff06a', '#75f4c8', '#73d7ff', '#c789ff', '#ffbd8a'];
+      for (let i = 0; i < 54; i++) {
+        const piece = document.createElement('span');
+        piece.className = 'confetti';
+        piece.style.left = `${Math.random() * 100}%`;
+        piece.style.background = colors[i % colors.length];
+        piece.style.animationDelay = `${Math.random() * 2.5}s`;
+        piece.style.setProperty('--fall', `${2.4 + Math.random() * 2.2}s`);
+        resultCard.appendChild(piece);
+      }
+    }
+
+    nextBtn.addEventListener('click', () => {
+      index += 1;
+      if (index >= questions.length) {
+        finishGame();
+      } else {
+        renderQuestion();
+      }
+    });
+
+    restartBtn.addEventListener('click', () => {
+      index = 0;
+      score = 0;
+      resultCard.classList.add('hidden');
+      gameCard.classList.remove('hidden');
+      renderQuestion();
+    });
+
+    renderQuestion();
+  </script>
+</body>
+</html>
