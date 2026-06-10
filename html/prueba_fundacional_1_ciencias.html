@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Prueba funcional 1 - Ciencias</title>
+  <title>Prueba fundacional 1 - Ciencias</title>
   <style>
     :root {
       --rosa: #ff8fc7;
@@ -333,14 +333,14 @@
 
   <main class="contenedor">
     <header>
-      <h1>🔬 Prueba funcional 1</h1>
+      <h1>🔬 Prueba fundacional 1</h1>
       <p class="subtitulo">Ciencias kawaii para 1° básico 🌷</p>
     </header>
 
     <section class="tarjeta" id="juego" aria-live="polite">
       <div class="barra-superior">
         <div class="puntaje" id="puntaje">Puntaje: 0 ⭐</div>
-        <div class="progreso" id="progreso">Pregunta 1 de 12</div>
+        <div class="progreso" id="progreso">Pregunta 1 de 20</div>
       </div>
 
       <div class="pregunta" id="pregunta"></div>
@@ -360,73 +360,103 @@
   <script>
     const preguntas = [
       {
-        texto: "Antes de comer, ¿qué debemos hacer con nuestras manos? 🧼",
-        opciones: ["Lavarlas con agua y jabón 🫧", "Esconderlas en bolsillos 🙈", "Pintarlas con plumón 🎨"],
+        texto: "Antes de comer o después de jugar afuera, ¿cuál hábito ayuda a evitar microbios? 🧼",
+        opciones: ["Lavarse con agua y jabón 🫧", "Limpiarse solo en la ropa 👕", "Soplarse las manos 🌬️"],
         correcta: 0
       },
       {
-        texto: "¿Cuál alimento ayuda a cuidar tu cuerpo? 🍎",
-        opciones: ["Manzana y verduras 🥦", "Solo dulces 🍬", "Papel de colores 📄"],
+        texto: "¿Qué colación entrega más vitaminas y ayuda a cuidar el cuerpo? 🍎",
+        opciones: ["Fruta y verduras de colores 🥦", "Solo caramelos todos los días 🍬", "Papel picado de colores 📄"],
         correcta: 0
       },
       {
-        texto: "Para crecer con energía, en la noche necesitamos... 🌙",
-        opciones: ["Descansar y dormir 😴", "Saltar sin parar 🦘", "No cerrar los ojos 👀"],
+        texto: "Para crecer, aprender y tener energía al día siguiente, en la noche necesitamos... 🌙",
+        opciones: ["Dormir suficientes horas 😴", "Quedarnos despiertos jugando 🧸", "Correr por la casa sin parar 🏃‍♀️"],
         correcta: 0
       },
       {
-        texto: "¿Con qué órgano vemos los colores del arcoíris? 🌈",
-        opciones: ["Ojos 👀", "Orejas 👂", "Nariz 👃"],
+        texto: "Si quieres observar el color y la forma de una flor, ¿qué órgano usas principalmente? 🌸",
+        opciones: ["Los ojos 👀", "Las orejas 👂", "La lengua 👅"],
         correcta: 0
       },
       {
-        texto: "¿Qué sentido usamos para escuchar una canción? 🎵",
-        opciones: ["Oído 👂", "Gusto 👅", "Tacto ✋"],
+        texto: "Cuando escuchas una campana sin verla, ¿qué sentido te ayuda a reconocerla? 🔔",
+        opciones: ["El oído 👂", "El gusto 👅", "El olfato 👃"],
         correcta: 0
       },
       {
-        texto: "¿Cómo cuidamos nuestros ojos cuando hay mucho sol? ☀️",
-        opciones: ["Usando gorro o lentes 🕶️", "Mirando al sol fijo 😵", "Echando tierra cerca 🏖️"],
+        texto: "¿Cuál acción protege mejor tus ojos en un día con sol fuerte? ☀️",
+        opciones: ["Usar gorro o lentes de sol 🕶️", "Mirar el sol fijamente 😵", "Frotarlos con arena 🏖️"],
         correcta: 0
       },
       {
-        texto: "¿Qué necesitan los seres vivos para vivir? 🌱",
-        opciones: ["Agua, aire y alimento 💧", "Solo juguetes 🧸", "Solo televisión 📺"],
+        texto: "¿Qué grupo reúne necesidades básicas que comparten plantas, animales y personas? 🌱",
+        opciones: ["Agua, aire y alimento 💧", "Juguetes, televisión y dulces 📺", "Pintura, pegamento y tijeras ✂️"],
         correcta: 0
       },
       {
-        texto: "¿Qué animal tiene plumas y puede volar? 🪶",
-        opciones: ["Pájaro 🐦", "Pez 🐟", "Caracol 🐌"],
+        texto: "Un animal con plumas, pico y alas pertenece al grupo de... 🪶",
+        opciones: ["Las aves 🐦", "Los peces 🐟", "Los insectos 🐜"],
         correcta: 0
       },
       {
-        texto: "¿Dónde vive mejor un pez? 🐠",
-        opciones: ["En el agua 💦", "En una rama 🌳", "En una nube ☁️"],
+        texto: "¿Qué característica permite a un pez vivir mejor en el agua? 🐠",
+        opciones: ["Tiene aletas para nadar 💦", "Tiene raíces bajo la tierra 🌿", "Tiene lana para abrigarse 🧶"],
         correcta: 0
       },
       {
-        texto: "¿Qué parte de la planta toma agua de la tierra? 🌿",
-        opciones: ["Raíz 🥕", "Flor 🌼", "Hoja 🍃"],
+        texto: "¿Qué parte de la planta absorbe agua y sales minerales desde la tierra? 🌿",
+        opciones: ["La raíz 🥕", "La flor 🌼", "El fruto 🍓"],
         correcta: 0
       },
       {
-        texto: "¿Qué parte de la planta sostiene las hojas? 🌻",
-        opciones: ["Tallo 🟢", "Piedra 🪨", "Nido 🪺"],
+        texto: "¿Qué parte de la planta sostiene las hojas y transporta agua hacia ellas? 🌻",
+        opciones: ["El tallo 🟢", "La piedra 🪨", "El nido 🪺"],
         correcta: 0
       },
       {
-        texto: "Si vamos a comer verduras, primero debemos... 🥬",
-        opciones: ["Lavarlas muy bien 🚿", "Dejarlas en el suelo 👟", "No mirarlas nunca 🙃"],
+        texto: "Si vamos a comer verduras crudas, ¿qué paso es más seguro antes de comerlas? 🥬",
+        opciones: ["Lavarlas muy bien con agua 🚿", "Dejarlas en el suelo un rato 👟", "Guardarlas sin mirar 🙃"],
         correcta: 0
       },
       {
-        texto: "En Chile, ¿cómo podemos cuidar a animales y plantas? 🇨🇱",
-        opciones: ["No ensuciar su hogar 🌎", "Botar basura en ríos 🗑️", "Romper flores por juego 🌺"],
+        texto: "¿Qué acción cuida mejor el hogar de animales y plantas en un paseo? 🇨🇱",
+        opciones: ["Llevarse la basura y no romper plantas 🌎", "Botar envoltorios al río 🗑️", "Arrancar flores por juego 🌺"],
         correcta: 0
       },
       {
-        texto: "¿Qué animal chileno vive en la cordillera y parece un camello pequeño? 🏔️",
+        texto: "¿Qué animal chileno vive en la cordillera, tiene cuello largo y se parece a un camello pequeño? 🏔️",
         opciones: ["Guanaco 🦙", "Tiburón 🦈", "Gallina 🐔"],
+        correcta: 0
+      },
+      {
+        texto: "Si una planta no recibe luz por muchos días, ¿qué puede ocurrir? 🌤️",
+        opciones: ["Puede debilitarse porque necesita luz para crecer 🍃", "Crece igual dentro de una caja cerrada 📦", "Se convierte en piedra 🪨"],
+        correcta: 0
+      },
+      {
+        texto: "¿Cuál es una señal de que un ser vivo está creciendo? 📏",
+        opciones: ["Aumenta de tamaño con el tiempo 🌱", "Nunca cambia nada 🧊", "Se vuelve invisible ✨"],
+        correcta: 0
+      },
+      {
+        texto: "¿Qué sentido usas para reconocer el olor de una naranja antes de probarla? 🍊",
+        opciones: ["El olfato 👃", "El tacto ✋", "La vista solamente 👀"],
+        correcta: 0
+      },
+      {
+        texto: "Si tocas una taza y notas que está caliente, ¿qué sentido te avisó? ☕",
+        opciones: ["El tacto ✋", "El gusto 👅", "El oído 👂"],
+        correcta: 0
+      },
+      {
+        texto: "¿Qué opción muestra una forma responsable de cuidar el agua? 💧",
+        opciones: ["Cerrar la llave mientras me cepillo 🚰", "Dejar la llave abierta sin usarla 🛁", "Botar aceite al lavaplatos 🫗"],
+        correcta: 0
+      },
+      {
+        texto: "¿Por qué no debemos compartir cepillo de dientes? 🪥",
+        opciones: ["Porque puede pasar microbios de una persona a otra 🦠", "Porque cambia de color al instante 🌈", "Porque deja de ser un cepillo 🪄"],
         correcta: 0
       }
     ];
