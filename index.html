@@ -162,6 +162,14 @@
     }
     .card-ingles .card-icon-bg { background: linear-gradient(135deg, #fde68a, #ff9ec4); }
 
+    /* Ciencias accent */
+    .card-ciencias {
+      --glow-a: #a7f3d0;
+      --glow-b: #c084fc;
+      border-color: #a7f3d0;
+    }
+    .card-ciencias .card-icon-bg { background: linear-gradient(135deg, #a7f3d0, #c084fc); }
+
     .card-header {
       display: flex;
       align-items: center;
@@ -254,6 +262,7 @@
     .card-icon-bg { animation: bounce 2.5s ease-in-out infinite; }
     .card-matematicas .card-icon-bg { animation-delay: .8s; }
     .card-ingles .card-icon-bg { animation-delay: 1.6s; }
+    .card-ciencias .card-icon-bg { animation-delay: 2.4s; }
   </style>
 </head>
 <body>
@@ -351,6 +360,23 @@
       </ul>
     </section>
 
+
+    <!-- CIENCIAS -->
+    <section class="subject-card card-ciencias">
+      <div class="card-header">
+        <div class="card-icon-bg">🔬</div>
+        <h2 class="card-title">Ciencias</h2>
+      </div>
+      <ul class="game-list">
+        <li class="game-item">
+          <a href="html/prueba_funcional_1_ciencias.html">
+            <span class="game-emoji">🌱</span>
+            <span>prueba funcional 1</span>
+            <span class="game-pill">Jugar</span>
+          </a>
+        </li>
+      </ul>
+    </section>
 
     <!-- INGLÉS -->
     <section class="subject-card card-ingles">
