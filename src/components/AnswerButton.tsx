@@ -1,0 +1,1 @@
+export function AnswerButton({value,onClick,state}:{value:string;onClick:()=>void;state?:'wrong'|'correct'}){return <button className={`answer ${state||''}`} onClick={onClick}>{state==='correct'&&'✓ '}{state==='wrong'&&'↻ '}{value}</button>}
