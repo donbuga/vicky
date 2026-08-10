@@ -1,0 +1,1 @@
+export function NumberObjects({value}:{value:number}){return <div className="objects" aria-label={`${value} estrellas`}>{value===0?<span className="empty">ningún objeto · 0</span>:Array.from({length:value},(_,i)=><span key={i}>⭐</span>)}</div>}

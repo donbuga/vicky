@@ -1,0 +1,1 @@
+export function ProgressBar({current,total}:{current:number;total:number}){return <div className="progress-wrap"><div className="progress-label"><span>Misión</span><b>{Math.min(current+1,total)} / {total}</b></div><div className="progress"><i style={{width:`${current/total*100}%`}}/></div></div>}
