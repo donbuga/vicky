@@ -1,0 +1,2 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+export function ProgressBar({ current, total }) { return _jsxs("div", { className: "progress-wrap", children: [_jsxs("div", { className: "progress-label", children: [_jsx("span", { children: "Misi\u00F3n" }), _jsxs("b", { children: [Math.min(current + 1, total), " / ", total] })] }), _jsx("div", { className: "progress", children: _jsx("i", { style: { width: `${current / total * 100}%` } }) })] }); }
