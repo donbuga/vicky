@@ -1,0 +1,3 @@
+import { useState } from 'react';
+export function useSound() { const [enabled, setEnabled] = useState(true); const play = (kind) => { if (!enabled)
+    return; const Ctx = window.AudioContext || window.webkitAudioContext, ctx = new Ctx(), o = ctx.createOscillator(), g = ctx.createGain(); o.connect(g); g.connect(ctx.destination); o.frequency.value = kind === 'good' ? 660 : kind === 'done' ? 784 : 260; g.gain.setValueAtTime(.08, ctx.currentTime); g.gain.exponentialRampToValueAtTime(.001, ctx.currentTime + .22); o.start(); o.stop(ctx.currentTime + .22); }; return { enabled, setEnabled, play }; }

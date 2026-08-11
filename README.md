@@ -1,6 +1,6 @@
 # Aventura Matemática
 
-Juego educativo para practicar contenidos de matemática de 1º básico. Desde el portal, abre **Matemáticas → Evaluación del 12 de agosto**.
+Juego educativo para practicar contenidos de matemática de 1º básico. Desde el portal, abre **Matemáticas → Evaluación del 13 de agosto**.
 
 ## Instalar y ejecutar
 
