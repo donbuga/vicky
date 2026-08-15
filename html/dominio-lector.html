@@ -560,7 +560,7 @@ function createRound(level,count){
   const wordBank=[...new Set([...level1Words,...level2Words])];
   const focusedWords=wordBank.filter(word=>level3Pattern.test(word));
   const otherWords=wordBank.filter(word=>!level3Pattern.test(word));
-  const focusedCount=Math.round(count*.6);
+  const focusedCount=Math.round(count*.85);
   return shuffle([
     ...shuffle(focusedWords).slice(0,focusedCount),
     ...shuffle(otherWords).slice(0,count-focusedCount)
