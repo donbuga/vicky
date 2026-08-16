@@ -98,7 +98,7 @@
   /* ── SCENE ── */
   .scene {
     position: relative;
-    min-height: 340px;
+    min-height: 430px;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -150,7 +150,7 @@
   /* ── BLOCKS ROW ── */
   .blocks-row {
     position: absolute;
-    bottom: 148px;
+    bottom: 238px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -158,6 +158,8 @@
     z-index: 4;
     align-items: flex-end;
   }
+
+  .blocks-row.new-blocks { bottom: 148px; }
 
   .q-block {
     width: clamp(56px, 10vw, 80px);
@@ -456,7 +458,7 @@
   <p>Toca los bloques 🟧 y ¡aprende a leer!</p>
   <div id="coin-bar">
     <span class="coin-icon">🪙</span>
-    <span id="coin-count">0</span> / 4 monedas
+    <span id="coin-count">0</span> / 8 monedas
   </div>
   <div id="win-msg">🌟 ¡GANASTE! ¡ERES UNA CAMPEONA! 🌟</div>
 </header>
@@ -521,6 +523,46 @@
     </div>
   </div>
 
+  <!-- Nuevos bloques de lectura: ca, ce, ci, co, cu y z -->
+  <div class="blocks-row new-blocks">
+    <div class="q-block" id="block-4" onclick="openModal(4)">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <rect width="100" height="100" rx="8" fill="#E84A5F"/>
+        <rect x="4" y="4" width="92" height="92" rx="6" fill="none" stroke="#8F1731" stroke-width="4"/>
+        <rect x="8" y="8" width="84" height="12" fill="#FF7B89" rx="3"/>
+        <rect x="8" y="80" width="84" height="12" fill="#B52340" rx="3"/>
+        <text x="50" y="70" text-anchor="middle" font-family="'Press Start 2P',monospace" font-size="46" font-weight="900" fill="#fff" stroke="#721127" stroke-width="3">?</text>
+      </svg>
+    </div>
+    <div class="q-block" id="block-5" onclick="openModal(5)">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <rect width="100" height="100" rx="8" fill="#7E57C2"/>
+        <rect x="4" y="4" width="92" height="92" rx="6" fill="none" stroke="#45278A" stroke-width="4"/>
+        <rect x="8" y="8" width="84" height="12" fill="#A984E0" rx="3"/>
+        <rect x="8" y="80" width="84" height="12" fill="#58349E" rx="3"/>
+        <text x="50" y="70" text-anchor="middle" font-family="'Press Start 2P',monospace" font-size="46" font-weight="900" fill="#fff" stroke="#32186F" stroke-width="3">?</text>
+      </svg>
+    </div>
+    <div class="q-block" id="block-6" onclick="openModal(6)">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <rect width="100" height="100" rx="8" fill="#00A6A6"/>
+        <rect x="4" y="4" width="92" height="92" rx="6" fill="none" stroke="#006666" stroke-width="4"/>
+        <rect x="8" y="8" width="84" height="12" fill="#45D2D2" rx="3"/>
+        <rect x="8" y="80" width="84" height="12" fill="#007B7B" rx="3"/>
+        <text x="50" y="70" text-anchor="middle" font-family="'Press Start 2P',monospace" font-size="46" font-weight="900" fill="#fff" stroke="#004F4F" stroke-width="3">?</text>
+      </svg>
+    </div>
+    <div class="q-block" id="block-7" onclick="openModal(7)">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <rect width="100" height="100" rx="8" fill="#F47C20"/>
+        <rect x="4" y="4" width="92" height="92" rx="6" fill="none" stroke="#9A3D00" stroke-width="4"/>
+        <rect x="8" y="8" width="84" height="12" fill="#FFA45F" rx="3"/>
+        <rect x="8" y="80" width="84" height="12" fill="#BE5208" rx="3"/>
+        <text x="50" y="70" text-anchor="middle" font-family="'Press Start 2P',monospace" font-size="46" font-weight="900" fill="#fff" stroke="#7D3000" stroke-width="3">?</text>
+      </svg>
+    </div>
+  </div>
+
   <div class="ground"></div>
 </div>
 
@@ -566,14 +608,22 @@ const frases = [
   "Mario corre muy rápido por el reino y salta sobre los hongos para ganar puntos y salvar a la princesa.",
   "El hongo rojo hace crecer a Mario y lo hace más fuerte para poder romper los bloques con su cabeza.",
   "La estrella amarilla hace que Mario brille y no le pase nada malo mientras corre por el mundo.",
-  "Cuando Mario toca el bloque con signo de pregunta puede encontrar monedas de oro y hongos especiales."
+  "Cuando Mario toca el bloque con signo de pregunta puede encontrar monedas de oro y hongos especiales.",
+  "Cecilia cocina calabaza con queso en una cazuela azul y coloca cinco cucharas cerca de cada taza.",
+  "El zorro curioso cruza el bosque, busca cinco cerezas y las comparte con un caracol de caparazón azul.",
+  "Camila lleva una cesta a la cocina con ciruelas, cocos, azúcar y cinco ricos caramelos para César.",
+  "César y Zoé cuidan una maceta: colocan cinco semillas, acercan una taza y esperan que crezca una azucena."
 ];
 
 const titulos = [
   "🏃 ¡Mario corre!",
   "🍄 ¡El hongo mágico!",
   "⭐ ¡La estrella!",
-  "❓ ¡El bloque secreto!"
+  "❓ ¡El bloque secreto!",
+  "🥣 ¡La cazuela azul!",
+  "🦊 ¡El zorro curioso!",
+  "🧺 ¡La cesta de Camila!",
+  "🌱 ¡La azucena de César!"
 ];
 
 // ── ESTADO ──────────────────────────────────────────────────────────────────
@@ -687,7 +737,7 @@ function markDone() {
   // Sonido moneda (Web Audio API)
   playCoinSound();
 
-  if (coins >= 4) {
+  if (coins >= 8) {
     setTimeout(() => {
       document.getElementById('win-msg').style.display = 'block';
       document.querySelector('.no-read-btn').style.display = 'none';
