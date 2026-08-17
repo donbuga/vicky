@@ -9,6 +9,9 @@
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <!-- Esta página se publica directamente, por lo que carga JavaScript ya
+         compilado en vez de entregar TSX (que el navegador no puede ejecutar). -->
+    <script type="module" src="./assets/sailor-moon.js"></script>
+    <link rel="stylesheet" href="./assets/sailor-moon.css" />
   </body>
 </html>

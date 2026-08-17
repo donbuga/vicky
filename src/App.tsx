@@ -1,5 +1,6 @@
 import {useEffect, useState} from 'react';
-import serena from './file_000000003f60820eb8adacc5bed5ae6c.png';
+
+const serena='./src/file_000000003f60820eb8adacc5bed5ae6c.png';
 
 type Story={title:string; category:string; icon:string; text:string};
 
@@ -19,7 +20,14 @@ const stories:Story[]=[
 const Moon=()=> <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M45 7a25 25 0 1 0 11 40A27 27 0 0 1 45 7Z"/><path className="star" d="m16 12 2 5 5 2-5 2-2 5-2-5-5-2 5-2 2-5Z"/></svg>;
 
 export default function App(){
- const [started,setStarted]=useState(false),[current,setCurrent]=useState(0),[read,setRead]=useState<number[]>(()=>JSON.parse(localStorage.getItem('serena-read')||'[]'));
+ const [started,setStarted]=useState(false),[current,setCurrent]=useState(0),[read,setRead]=useState<number[]>(()=>{
+  try {
+   const saved=JSON.parse(localStorage.getItem('serena-read')||'[]');
+   return Array.isArray(saved)?saved:[];
+  } catch {
+   return [];
+  }
+ });
  useEffect(()=>localStorage.setItem('serena-read',JSON.stringify(read)),[read]);
  const story=stories[current], done=read.includes(current), pct=Math.round(read.length/stories.length*100);
  const mark=()=>setRead(r=>r.includes(current)?r:[...r,current]);
