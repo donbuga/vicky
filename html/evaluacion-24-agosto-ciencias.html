@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Evaluación del 24 de agosto · Ciencias</title>
+  <style>
+    :root{--ink:#17324d;--blue:#1f78b4;--teal:#28a995;--cream:#fffdf4;--yellow:#ffd75e;--red:#ef6b6b}
+    *{box-sizing:border-box} body{margin:0;min-height:100vh;color:var(--ink);font-family:"Trebuchet MS",system-ui,sans-serif;background:linear-gradient(150deg,#c9f4ed,#cce7ff 48%,#fff0ba);padding:24px}
+    body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.23;background-image:radial-gradient(#fff 3px,transparent 4px);background-size:35px 35px}
+    .app{position:relative;max-width:920px;margin:auto}.top{display:flex;align-items:center;justify-content:center;gap:18px;text-align:left;margin:4px 0 18px}.mascot{width:105px;height:105px;object-fit:contain;filter:drop-shadow(0 8px 5px #427b8540)}
+    h1{margin:0;color:#125f79;font-size:clamp(1.7rem,5vw,3.1rem);line-height:1}.subtitle{margin:.5rem 0 0;font-weight:800;color:#397086}.card{background:#fffdf4eF;border:4px solid #fff;border-radius:30px;box-shadow:0 18px 45px #24617c30;padding:clamp(18px,4vw,34px)}
+    .status{display:flex;gap:12px;align-items:center}.score{font-weight:900;white-space:nowrap;background:#fff0b8;border-radius:99px;padding:9px 14px}.track{height:16px;background:#d9e9ed;border-radius:99px;overflow:hidden;flex:1}.bar{height:100%;width:0;background:linear-gradient(90deg,var(--teal),#72d67a);transition:width .35s}
+    .topic{display:inline-block;margin:22px 0 5px;padding:7px 13px;border-radius:99px;background:#dff6f1;color:#167566;font-weight:900;font-size:.88rem}.question{font-size:clamp(1.4rem,4vw,2.1rem);line-height:1.2;margin:10px 0 22px}.answers{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}.answer{min-height:82px;border:3px solid #b9e0e6;border-radius:18px;background:white;color:var(--ink);font:700 1.1rem/1.25 inherit;padding:13px;cursor:pointer;box-shadow:0 5px 0 #9fcfd6;transition:.15s}.answer:hover:not(:disabled),.answer:focus-visible{transform:translateY(-3px);border-color:var(--blue);outline:none}.answer.correct{background:#d9f8dd;border-color:#51b663}.answer.wrong{background:#ffe0e0;border-color:var(--red)}.answer:disabled{cursor:default}
+    .feedback{min-height:32px;margin:20px 0 8px;text-align:center;font-size:1.18rem;font-weight:900}.next,.restart{display:none;margin:10px auto 0;border:0;border-radius:99px;background:linear-gradient(135deg,#168fac,#29ae83);color:white;padding:13px 24px;font:900 1.1rem inherit;cursor:pointer;box-shadow:0 6px 0 #12687b}.next.show,.restart.show{display:block}.finish{display:none;text-align:center}.finish.show{display:block}.finish h2{font-size:clamp(2rem,6vw,3.4rem);margin:10px}.result{font-size:1.35rem;font-weight:800}.legend{text-align:center;margin-top:15px;color:#3c7483;font-weight:700;font-size:.9rem}
+    @media(max-width:620px){body{padding:12px}.top{gap:8px}.mascot{width:76px;height:76px}.answers{grid-template-columns:1fr}.answer{min-height:68px}.card{border-radius:22px}.status{flex-wrap:wrap}.track{order:3;flex-basis:100%}}
+  </style>
+</head>
+<body><main class="app">
+  <header class="top"><img class="mascot" src="../upCat.png" alt="Gatita científica"><div><h1>Evaluación del 24 de agosto</h1><p class="subtitle">Laboratorio de materiales · Ciencias 🔬</p></div></header>
+  <section class="card" id="game" aria-live="polite">
+    <div class="status"><span class="score" id="score">⭐ 0 puntos</span><div class="track" aria-label="Progreso"><div class="bar" id="bar"></div></div><strong id="count">1 / 18</strong></div>
+    <div class="topic" id="topic"></div><h2 class="question" id="question"></h2><div class="answers" id="answers"></div><div class="feedback" id="feedback"></div><button class="next" id="next">Siguiente ➜</button>
+  </section>
+  <section class="card finish" id="finish"><div style="font-size:5rem">🏆🧪</div><h2>¡Misión cumplida!</h2><p class="result" id="result"></p><button class="restart show" id="restart">Jugar otra vez</button></section>
+  <p class="legend">Observa, compara y descubre las propiedades de los materiales.</p>
+</main><script>
+const questions=[
+ ["Tipos de materiales","¿De qué material está hecha una cuchara de metal?",["Metal","Tela","Papel","Goma"],0,"El metal puede ser duro y resistente."],
+ ["Tipos de materiales","Una ventana suele estar hecha de...",["Vidrio","Algodón","Cartón","Lana"],0,"El vidrio permite que pase la luz."],
+ ["Agrupar materiales","¿Qué grupo contiene solo objetos de madera?",["Mesa y lápiz","Vaso y botella","Bufanda y calcetín","Llave y moneda"],0,"La mesa y muchos lápices se fabrican con madera."],
+ ["Agrupar materiales","¿Qué tienen en común una botella plástica y una bolsa plástica?",["Están hechas de plástico","Son de vidrio","Son de lana","Son comestibles"],0,"Podemos agrupar objetos por el material del que están hechos."],
+ ["Textura","¿Cuál objeto tiene textura áspera?",["Una lija","Un algodón","Una seda","Un peluche"],0,"La lija se siente rugosa o áspera."],
+ ["Textura","¿Cuál objeto se siente suave al tocarlo?",["Un algodón","Una roca rugosa","Una lija","Un rallador"],0,"El algodón tiene una textura suave."],
+ ["Dureza","¿Cuál de estos objetos es duro?",["Una piedra","Una almohada","Una esponja","Un ovillo de lana"],0,"La piedra no se hunde fácilmente al presionarla."],
+ ["Dureza","¿Cuál de estos objetos es blando?",["Una esponja","Una moneda","Un clavo","Una taza de vidrio"],0,"La esponja se hunde al apretarla."],
+ ["Fuerza y cambios","¿Qué ocurre al aplastar plasticina con las manos?",["Cambia su forma","Se vuelve transparente","Desaparece","Se convierte en metal"],0,"La fuerza de tus manos deforma la plasticina."],
+ ["Fuerza y cambios","¿Qué pasa al apretar una manguera de goma?",["Se dobla o deforma","Se rompe siempre","Se vuelve de vidrio","No puede cambiar"],0,"La goma puede cambiar de forma cuando aplicamos fuerza."],
+ ["Permeable / impermeable","¿Cuál material es permeable y absorbe agua?",["Una esponja","Un impermeable","Una bolsa plástica","Un paraguas"],0,"Un material permeable deja pasar o absorbe el agua."],
+ ["Permeable / impermeable","¿Qué objeto es impermeable?",["Un paraguas","Una servilleta","Un algodón","Un cartón"],0,"El paraguas impide que el agua lo atraviese."],
+ ["Frágil / resistente","¿Cuál objeto es frágil y puede quebrarse con facilidad?",["Un vaso de vidrio","Una pelota de goma","Una cuchara de metal","Una cuerda"],0,"El vidrio es frágil y debe manipularse con cuidado."],
+ ["Frágil / resistente","¿Cuál material suele ser resistente?",["El metal","Una cáscara de huevo","El papel fino","El vidrio delgado"],0,"El metal soporta fuerzas sin romperse fácilmente."],
+ ["Flexible / rígido","¿Cuál objeto es flexible?",["Una manguera","Un ladrillo","Una tabla","Un plato de cerámica"],0,"La manguera se puede doblar."],
+ ["Flexible / rígido","¿Cuál objeto es rígido?",["Una regla de madera","Una cinta","Una goma elástica","Una bufanda"],0,"Un objeto rígido conserva su forma y cuesta doblarlo."],
+ ["Transparente / opaco","¿Cuál material es transparente?",["El vidrio limpio de una ventana","La madera","El cartón","El metal"],0,"Un material transparente deja ver a través de él."],
+ ["Transparente / opaco","¿Cuál objeto es opaco?",["Una puerta de madera","Un vaso de vidrio claro","Una ventana limpia","Un lente transparente"],0,"Un objeto opaco no permite ver a través de él."]
+];
+let order=[],index=0,points=0,locked=false;const $=id=>document.getElementById(id);
+function shuffle(a){return a.map(x=>[Math.random(),x]).sort((a,b)=>a[0]-b[0]).map(x=>x[1])}
+function start(){order=shuffle([...questions]);index=points=0;$('game').style.display='block';$('finish').classList.remove('show');render()}
+function render(){locked=false;const q=order[index];$('topic').textContent='🔎 '+q[0];$('question').textContent=q[1];$('feedback').textContent='';$('next').classList.remove('show');$('count').textContent=`${index+1} / ${order.length}`;$('score').textContent=`⭐ ${points} puntos`;$('bar').style.width=`${index/order.length*100}%`;$('answers').innerHTML='';shuffle(q[2].map((text,i)=>({text,ok:i===q[3]}))).forEach(o=>{const b=document.createElement('button');b.className='answer';b.textContent=o.text;b.onclick=()=>answer(b,o.ok,q[4]);$('answers').appendChild(b)})}
+function answer(button,ok,explanation){if(locked)return;locked=true;[...$('answers').children].forEach(b=>b.disabled=true);button.classList.add(ok?'correct':'wrong');if(ok){points++;$('feedback').textContent='¡Correcto! ✨ '+explanation}else{$('feedback').textContent='Buen intento 💡 '+explanation;const q=order[index];[...$('answers').children].find(b=>b.textContent===q[2][q[3]]).classList.add('correct')}$('score').textContent=`⭐ ${points} puntos`;$('next').textContent=index===order.length-1?'Ver resultado 🏆':'Siguiente ➜';$('next').classList.add('show')}
+$('next').onclick=()=>{if(++index<order.length)render();else{$('game').style.display='none';$('finish').classList.add('show');$('bar').style.width='100%';const msg=points>=15?'¡Excelente! Dominas las propiedades de los materiales.':points>=10?'¡Muy bien! Sigue observando los materiales que te rodean.':'¡Buen esfuerzo! Vuelve a jugar para seguir aprendiendo.';$('result').textContent=`Obtuviste ${points} de ${order.length} puntos. ${msg}`}};$('restart').onclick=start;start();
+</script></body></html>
