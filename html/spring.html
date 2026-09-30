@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ff7fb0">
+  <title>Spring · English</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@700;800;900&display=swap');
+    :root{--pink:#ff6da5;--dark:#382a46;--yellow:#ffd943;--green:#70bd68;--cream:#fffdf7}
+    *{box-sizing:border-box}body{margin:0;min-width:320px;min-height:100vh;color:var(--dark);font-family:Nunito,sans-serif;background:linear-gradient(#80d3f7 0 41%,#b9df7b 41% 100%);overflow-x:hidden}
+    button,a{font:inherit}.sky{position:fixed;inset:0;overflow:hidden;pointer-events:none}.cloud{position:absolute;width:170px;height:45px;border-radius:50px;background:#fff9;filter:blur(.2px)}.cloud:before,.cloud:after{content:"";position:absolute;background:inherit;border-radius:50%}.cloud:before{width:70px;height:70px;left:25px;bottom:0}.cloud:after{width:90px;height:85px;right:20px;bottom:0}.c1{top:10%;left:-30px}.c2{top:20%;right:10%;transform:scale(.7)}.hill{position:absolute;border-radius:50% 50% 0 0;background:#7fc65f}.h1{width:70vw;height:34vh;left:-20vw;bottom:0}.h2{width:85vw;height:29vh;right:-24vw;bottom:0;background:#69b957}.flowers{position:absolute;bottom:0;width:100%;font-size:clamp(30px,5vw,60px);letter-spacing:clamp(5px,2vw,30px);white-space:nowrap;opacity:.95}
+    .page{position:relative;z-index:1;max-width:1080px;margin:auto;padding:24px 24px 55px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:15px}.back{display:inline-flex;align-items:center;gap:8px;padding:9px 15px;color:#66405b;text-decoration:none;background:#fff;border:3px solid #fff;box-shadow:0 4px 0 #d4628c;border-radius:18px;font-size:14px;font-weight:900}.lesson{padding:8px 16px;border-radius:20px;color:#326a3d;background:#eaffd7;border:2px solid #fff;font-size:12px;letter-spacing:1px;text-transform:uppercase}
+    header{text-align:center;margin:15px auto 24px}.title-board{position:relative;display:inline-block;padding:13px 42px 16px;background:#c8864d;border:5px solid #87552e;border-radius:13px;transform:rotate(-2deg);box-shadow:0 8px 0 #704122,0 13px 25px #30420f33;color:white}.title-board:before,.title-board:after{content:"";position:absolute;top:-28px;width:15px;height:40px;background:#704122;border-radius:3px;z-index:-1}.title-board:before{left:40px}.title-board:after{right:40px}.title-board h1{font:700 clamp(44px,8vw,76px)/.9 Fredoka;margin:0;letter-spacing:3px;text-shadow:0 4px 0 #9d4c61}.title-board h1 span:nth-child(1){color:#ffbad1}.title-board h1 span:nth-child(2){color:#89dbf3}.title-board h1 span:nth-child(3){color:#b8df62}.title-board h1 span:nth-child(4){color:#ffe66e}.title-board h1 span:nth-child(5){color:#d9b9f2}.title-board h1 span:nth-child(6){color:#ffbad1}.title-sub{margin:24px 0 0;color:#405830;font-size:15px;font-weight:900;background:#ffffffc7;display:inline-block;padding:7px 16px;border-radius:20px}
+    .garden-card{max-width:760px;margin:auto;background:#fffdf4ed;border:5px solid white;border-radius:34px;padding:30px;box-shadow:0 14px 0 #e65e94,0 22px 45px #37551b3d;position:relative}.garden-card:before{content:"☀️";position:absolute;right:-30px;top:-58px;font-size:90px;filter:drop-shadow(0 4px 0 #fff)}.garden-card h2{text-align:center;margin:0 0 6px;font:700 28px Fredoka;color:#d84d86}.garden-card>p{text-align:center;margin:0 0 24px;color:#6e6570;font-size:14px}.phrases{display:grid;gap:14px}.phrase{display:grid;grid-template-columns:58px 1fr auto;align-items:center;gap:15px;padding:14px 18px;border:3px dashed #f294ba;border-radius:22px;background:#fff;transition:.2s}.phrase:nth-child(even){border-color:#9ccc6e;background:#fbfff4}.phrase.speaking{transform:scale(1.02);border-style:solid;box-shadow:0 6px 18px #ff77ad3b}.icon{font-size:35px;text-align:center}.words{font:600 clamp(19px,3vw,27px)/1.25 Fredoka}.words strong{color:#ef4d91}.play{width:52px;height:52px;border:0;border-radius:50%;background:var(--pink);color:#fff;cursor:pointer;box-shadow:0 5px 0 #b83870;font-size:21px;transition:.15s}.play:hover{transform:translateY(-2px)}.play:active{transform:translateY(4px);box-shadow:0 1px 0 #b83870}.play:focus-visible,.back:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}.play[aria-pressed=true]{background:#65ad5e;box-shadow:0 5px 0 #3d7a39}.tip{text-align:center;margin:25px 0 0;color:#68495b;font-size:13px;font-weight:900}.tip span{display:inline-block;background:#fff4ad;padding:8px 14px;border-radius:20px}.butterfly{position:absolute;font-size:34px;animation:fly 3s ease-in-out infinite}.b1{left:3%;top:42%}.b2{right:2%;top:68%;animation-delay:-1.3s}@keyframes fly{50%{transform:translate(12px,-16px) rotate(8deg)}}
+    @media(max-width:600px){.page{padding:18px 13px 40px}.garden-card{padding:25px 13px 22px;border-radius:25px}.garden-card:before{right:-5px;top:-52px;font-size:65px}.phrase{grid-template-columns:45px 1fr 46px;gap:8px;padding:12px 9px}.icon{font-size:27px}.play{width:44px;height:44px}.b1,.b2{display:none}.title-board{padding:11px 25px}.lesson{display:none}}
+    @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+  </style>
+</head>
+<body>
+  <div class="sky" aria-hidden="true"><div class="cloud c1"></div><div class="cloud c2"></div><div class="hill h1"></div><div class="hill h2"></div><div class="flowers">🌷 🌼 🌸 🌷 🌻 🌸 🌼 🌷 🌸</div></div>
+  <main class="page">
+    <nav class="topbar" aria-label="Navigation"><a class="back" href="../index.html">← Back</a><span class="lesson">English · Listen &amp; repeat</span></nav>
+    <header><div class="title-board"><h1 aria-label="Spring"><span>S</span><span>P</span><span>R</span><span>I</span><span>N</span><span>G</span></h1></div><br><p class="title-sub">🌸 Listen, repeat and learn! 🌸</p></header>
+    <span class="butterfly b1" aria-hidden="true">🦋</span><span class="butterfly b2" aria-hidden="true">🦋</span>
+    <section class="garden-card" aria-labelledby="phrases-title">
+      <h2 id="phrases-title">Spring phrases</h2><p>Press play to hear each phrase.</p>
+      <div class="phrases">
+        <article class="phrase"><span class="icon" aria-hidden="true">🌷</span><span class="words">It is <strong>spring</strong>.</span><button class="play" type="button" data-phrase="It is spring." aria-label="Play: It is spring" aria-pressed="false">▶</button></article>
+        <article class="phrase"><span class="icon" aria-hidden="true">👕</span><span class="words">I am wearing a <strong>shirt</strong>.</span><button class="play" type="button" data-phrase="I am wearing a shirt." aria-label="Play: I am wearing a shirt" aria-pressed="false">▶</button></article>
+        <article class="phrase"><span class="icon" aria-hidden="true">👗</span><span class="words">I am wearing a <strong>skirt</strong>.</span><button class="play" type="button" data-phrase="I am wearing a skirt." aria-label="Play: I am wearing a skirt" aria-pressed="false">▶</button></article>
+        <article class="phrase"><span class="icon" aria-hidden="true">👟</span><span class="words">I am wearing <strong>shoes</strong>.</span><button class="play" type="button" data-phrase="I am wearing shoes." aria-label="Play: I am wearing shoes" aria-pressed="false">▶</button></article>
+        <article class="phrase"><span class="icon" aria-hidden="true">🌼</span><span class="words">I am wearing a <strong>shirt</strong>, a <strong>skirt</strong> and <strong>shoes</strong>.</span><button class="play" type="button" data-phrase="I am wearing a shirt, a skirt and shoes." aria-label="Play the complete clothing phrase" aria-pressed="false">▶</button></article>
+      </div>
+      <p class="tip"><span>💡 Listen carefully, then say it out loud!</span></p>
+    </section>
+  </main>
+  <script>
+    const buttons = [...document.querySelectorAll('.play')];
+    let activeButton = null;
+    function resetPlayer() {
+      buttons.forEach(button => { button.textContent = '▶'; button.setAttribute('aria-pressed', 'false'); button.closest('.phrase').classList.remove('speaking'); });
+      activeButton = null;
+    }
+    function speak(button) {
+      window.speechSynthesis.cancel();
+      resetPlayer();
+      const message = new SpeechSynthesisUtterance(button.dataset.phrase);
+      message.lang = 'en-US'; message.rate = 0.78; message.pitch = 1.05;
+      activeButton = button; button.textContent = '■'; button.setAttribute('aria-pressed', 'true'); button.closest('.phrase').classList.add('speaking');
+      message.onend = resetPlayer; message.onerror = resetPlayer;
+      window.speechSynthesis.speak(message);
+    }
+    buttons.forEach(button => button.addEventListener('click', () => activeButton === button ? (window.speechSynthesis.cancel(), resetPlayer()) : speak(button)));
+    window.addEventListener('beforeunload', () => window.speechSynthesis.cancel());
+  </script>
+</body>
+</html>
