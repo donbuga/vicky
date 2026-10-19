@@ -22,3 +22,42 @@ Para comprobar la versión de producción: `npm run build`.
 ## Agregar ejercicios
 
 Crea un generador que devuelva `Exercise` en `exerciseGenerators.ts`, agrégalo a `makeExercise` y, si necesita otra visualización, incorpora el nuevo tipo visual en `ExerciseCard`.
+
+
+## Ciencias → Prueba del Sol
+
+Juego para Victoria, de 1º básico, integrado en el menú de Ciencias. Sigue la
+convención de los juegos independientes de `html/`: HTML, CSS, SVG y módulos
+JavaScript, sin dependencias externas ni instalación. No requiere backend.
+
+Desde la raíz del repositorio:
+
+```bash
+python3 -m http.server 8000
+```
+
+Abre `http://localhost:8000/html/prueba-del-sol.html` o entra desde Ciencias
+en `http://localhost:8000/`. Usa HTTP: abrir el archivo directamente con `file://`
+no permite cargar módulos en algunos navegadores. También funciona en GitHub Pages.
+
+- `html/sol/questions.mjs`: 36 preguntas editables, temas, conceptos, pistas y explicaciones.
+- `html/sol/engine.mjs`: selección equilibrada, dos intentos, estrellas y repaso por concepto.
+- `html/sol/game.mjs`: interfaz, voz del navegador y demostración día/noche.
+- `html/sol/art.mjs` y `style.css`: ilustraciones SVG y diseño adaptable.
+
+Cada partida tiene 12 preguntas, todos los temas (una o dos preguntas por tema)
+y los cinco formatos. Cada respuesta acertada, incluso al segundo intento, suma
+una estrella. Los errores del primer intento también se incluyen en el repaso,
+que puede tener otra cantidad de preguntas y usa solo los conceptos con errores.
+La voz prefiere `es-CL`, usa otra voz española si está disponible y conserva la
+opción de narración automática localmente; el juego funciona también sin voz.
+La demostración es un modelo simplificado visto desde arriba, no un mapa exacto.
+
+Verificación de lógica y contenido (Node 18 o posterior):
+
+```bash
+node --test tests/sol.test.mjs
+```
+
+El juego se sirve directamente desde `html/`, como los demás juegos de Ciencias;
+no necesita el build de Vite de las otras aplicaciones del repositorio.
