@@ -61,3 +61,19 @@ node --test tests/sol.test.mjs
 
 El juego se sirve directamente desde `html/`, como los demás juegos de Ciencias;
 no necesita el build de Vite de las otras aplicaciones del repositorio.
+
+
+## Historia → Prueba de unidades de tiempo
+
+Desde Historia, abre **Prueba de unidades de tiempo** o visita
+`html/prueba-de-unidades-de-tiempo.html`. Se sirve directamente como sitio
+estático, sin dependencias ni build.
+
+Incluye práctica diaria de ayer/hoy/mañana con la fecha local del dispositivo,
+práctica por seis temas y una prueba equilibrada de 18 preguntas. Evalúa días,
+meses, años, inicio y fin de semana, calendarios y antes/ahora/después.
+Cada respuesta recibe explicación y el resultado permite repasar errores.
+La última práctica diaria se guarda localmente si el navegador lo permite.
+La lectura de preguntas usa la voz del navegador cuando está disponible.
+
+Verificación: `node --test tests/tiempo.test.mjs`.
